@@ -76,7 +76,7 @@ export const TheVillaSection: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-left mb-12 max-w-3xl">
+        <div data-reveal className="text-left mb-12 max-w-3xl">
           <span className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-theme-accent font-medium mb-2 block">
             THE PROPERTY
           </span>
@@ -100,7 +100,8 @@ export const TheVillaSection: React.FC = () => {
             return (
               <div
                 key={space.title}
-                className="bg-theme-surface border border-theme-border flex flex-col justify-between overflow-hidden shadow-sm hover:border-theme-accent/60 transition-colors"
+                data-reveal
+                className="bg-theme-surface border border-theme-border flex flex-col justify-between overflow-hidden shadow-sm hover:border-theme-accent/60 transition-colors group"
               >
                 <div>
                   {/* Photo Frame */}

@@ -43,7 +43,7 @@ export const TerraceSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Text */}
-          <div className="lg:col-span-6 flex flex-col justify-center">
+          <div data-reveal className="lg:col-span-6 flex flex-col justify-center">
             <span className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-theme-accent font-medium mb-2 block">
               TERRACE & CELEBRATIONS
             </span>
@@ -89,16 +89,17 @@ export const TerraceSection: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleEventEnquiry('Birthday Celebration')}
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-theme-accent hover:bg-theme-accent-strong text-theme-bg dark:text-theme-surface-deep text-xs font-medium tracking-[0.16em] uppercase transition-colors shadow-sm"
+                data-cursor="link"
+                className="inline-flex items-center gap-2 px-6 py-2.5 bg-theme-accent hover:bg-theme-accent-strong text-theme-bg dark:text-theme-surface-deep text-xs font-medium tracking-[0.16em] uppercase transition-colors shadow-sm active:translate-y-[1px]"
               >
                 <span>Enquire About An Event</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
 
-          {/* Right Image: Illuminated Terrace Pavilion & Villa at Night */}
-          <div className="lg:col-span-6">
+          {/* Right Image: Large Photographic Composition with Clip-path Wipe */}
+          <div data-reveal="clip-wipe" className="lg:col-span-6">
             <div className="overflow-hidden border border-theme-border shadow-md aspect-[16/10] sm:aspect-[4/3] bg-theme-surface relative">
               <picture>
                 <source
