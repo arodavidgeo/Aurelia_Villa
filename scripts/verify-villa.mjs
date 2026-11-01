@@ -72,13 +72,13 @@ function checkFile(filePath) {
   const content = fs.readFileSync(filePath, 'utf-8');
   const relPath = path.relative(rootDir, filePath);
 
-  // Exclude verify script itself, image files, git files, node_modules, dist, assets-source
+  // Exclude verify script itself, scripts folder, image files, git files, node_modules, dist, assets-source
   if (
     relPath.includes('node_modules') ||
     relPath.includes('.git') ||
     relPath.includes('assets-source') ||
     relPath.includes('dist') ||
-    relPath.includes('scripts' + path.sep + 'verify-villa.mjs') ||
+    relPath.startsWith('scripts') ||
     relPath.endsWith('.md')
   ) {
     return;

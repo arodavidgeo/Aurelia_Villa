@@ -140,6 +140,48 @@
     z-index: 60;
     pointer-events: none;
   }
+
+  /* Cinematic Hero Animations */
+  @keyframes slowHeroZoom {
+    0% { transform: scale(1.00); }
+    100% { transform: scale(1.05); }
+  }
+
+  .hero-photo-zoom {
+    animation: slowHeroZoom 9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  /* Masked Headline Reveals (Section 4) */
+  html.js .hero-line-inner {
+    display: block;
+    transform: translateY(100%);
+    animation: heroLineSlide 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .hero-line-1 { animation-delay: 80ms; }
+  .hero-line-2 { animation-delay: 200ms; }
+  .hero-line-3 { animation-delay: 320ms; }
+
+  @keyframes heroLineSlide {
+    to { transform: translateY(0); }
+  }
+
+  /* Scroll Nudge Indicator (Nudges once, then still) */
+  @keyframes scrollNudgeOnce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  .scroll-nudge-indicator {
+    animation: scrollNudgeOnce 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.5s 1 normal forwards;
+  }
+  /* Fine Gold Rule Drawing Across (Section 10) */
+  html.js .gold-rule-draw {
+    width: 0%;
+    transition: width 700ms var(--ease-standard) 150ms;
+  }
+  html.js .is-revealed .gold-rule-draw,
+  html.js .gold-rule-draw.is-revealed {
+    width: 100%;
+  }
 }
 
 /* Reduced motion preference */
@@ -162,8 +204,17 @@
     clip-path: none !important;
     transition: none !important;
   }
-  .scroll-progress-line {
+  .scroll-progress-line,
+  .scroll-nudge-indicator {
     display: none !important;
+  }
+  .hero-photo-zoom,
+  html.js .hero-line-inner,
+  html.js .gold-rule-draw {
+    animation: none !important;
+    transform: none !important;
+    width: 100% !important;
+    transition: none !important;
   }
 }
 
