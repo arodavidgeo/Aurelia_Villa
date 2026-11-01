@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HomeHero } from './components/sections/HomeHero';
-import { RoomsSection } from './components/sections/RoomsSection';
 import { TheVillaSection } from './components/sections/TheVillaSection';
-import { ExperiencesSection } from './components/sections/ExperiencesSection';
+import { AmenitiesSection } from './components/sections/AmenitiesSection';
+import { TerraceSection } from './components/sections/TerraceSection';
 import { GallerySection } from './components/sections/GallerySection';
 import { LocationSection } from './components/sections/LocationSection';
 import { ContactSection } from './components/sections/ContactSection';
-import { AmenitiesSection } from './components/sections/AmenitiesSection';
 import { FAQSection } from './components/sections/FAQSection';
 import { BookingPoliciesSection } from './components/sections/BookingPoliciesSection';
 import { SkipToContent } from './components/common/SkipToContent';
@@ -26,13 +25,9 @@ export const App: React.FC = () => {
   const [is404, setIs404] = useState<boolean>(false);
 
   useEffect(() => {
-    // Capture UTM tracking parameters from URL
     initUTMTracking();
-
-    // Trigger initial page view
     trackPageView(window.location.pathname || '/');
 
-    // Handle 404 test hash or route
     const checkHash = () => {
       if (window.location.hash === '#404') {
         setIs404(true);
@@ -59,49 +54,42 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-theme-bg text-theme-text-primary transition-colors duration-200 flex flex-col selection:bg-theme-accent selection:text-white">
-      {/* Accessibility Skip Link */}
       <SkipToContent />
-
-      {/* Global Header */}
       <Header />
 
-      {/* Main Content Landmark */}
       <main id="main-content" className="flex-1 pb-16 md:pb-0">
         {/* Screen 1: Home */}
         <HomeHero />
 
-        {/* Screen 2: Rooms & Suites */}
-        <RoomsSection />
-
-        {/* Screen 3: The Villa */}
+        {/* Screen 2: The Villa Walkthrough */}
         <TheVillaSection />
 
-        {/* Screen 4: Experiences */}
-        <ExperiencesSection />
-
-        {/* Screen 5: Gallery */}
-        <GallerySection />
-
-        {/* Facilities & Amenities */}
+        {/* Screen 3: Verified Amenities & Facilities */}
         <AmenitiesSection />
 
-        {/* Screen 6: Location */}
-        <LocationSection />
+        {/* Screen 4: Terrace & Celebrations */}
+        <TerraceSection />
 
-        {/* Stay Policies */}
+        {/* Screen 5: Real Photo Gallery */}
+        <GallerySection />
+
+        {/* Screen 6: Pricing & Stay Policies */}
         <BookingPoliciesSection />
 
-        {/* FAQ Accordion */}
+        {/* Screen 7: Location & Directions in Tirunelveli */}
+        <LocationSection />
+
+        {/* Screen 8: FAQ Accordion */}
         <FAQSection />
 
-        {/* Screen 7: Contact & Enquiries */}
+        {/* Screen 9: Contact & Enquiry Form */}
         <ContactSection />
       </main>
 
-      {/* Screen 8: Footer */}
+      {/* Screen 10: Footer */}
       <Footer />
 
-      {/* Overlay Modals & Controls */}
+      {/* Floating Overlays */}
       <ConfirmationModal />
       <PolicyModal />
       <CookieConsent />
@@ -111,4 +99,3 @@ export const App: React.FC = () => {
     </div>
   );
 };
-

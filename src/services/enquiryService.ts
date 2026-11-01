@@ -1,5 +1,4 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { BookingEnquiry } from '../types';
 import { getStoredUTM } from './utm';
 import { trackEnquirySubmitted } from './analytics';
 
@@ -16,35 +15,60 @@ if (SUPABASE_URL && SUPABASE_ANON_KEY) {
   }
 }
 
+export interface EnquiryPayload {
+  id?: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  checkInDate: string;
+  checkOutDate: string;
+  guests: number;
+  purposeOfVisit: string;
+  message?: string;
+  createdAt?: string;
+}
+
 export interface ValidationErrors {
   fullName?: string;
-  email?: string;
   phone?: string;
+  email?: string;
   checkInDate?: string;
   checkOutDate?: string;
   guests?: string;
-  preferredRoom?: string;
+  purposeOfVisit?: string;
   general?: string;
 }
 
-export const validateEnquiry = (data: Partial<BookingEnquiry>): ValidationErrors => {
+export const normalizeIndianPhone = (raw: string): string => {
+  const digits = raw.replace(/\D/g, '');
+  if (digits.length === 10) return digits;
+  if (digits.length === 12 && digits.startsWith('91')) return digits.slice(2);
+  return digits;
+};
+
+export const validateEnquiryForm = (data: Partial<EnquiryPayload>): ValidationErrors => {
   const errors: ValidationErrors = {};
 
+  // Name: 2 to 80 characters
   if (!data.fullName || data.fullName.trim().length < 2) {
-    errors.fullName = 'Please enter your full name (at least 2 characters).';
+    errors.fullName = 'Please enter your name (at least 2 characters).';
+  } else if (data.fullName.trim().length > 80) {
+    errors.fullName = 'Name cannot exceed 80 characters.';
   }
 
+  // Indian phone: 10 digits with optional +91
+  const cleanPhone = normalizeIndianPhone(data.phone || '');
+  if (!data.phone || cleanPhone.length !== 10) {
+    errors.phone = 'Please provide a valid 10-digit Indian phone number.';
+  }
+
+  // Email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!data.email || !emailRegex.test(data.email.trim())) {
     errors.email = 'Please provide a valid email address.';
   }
 
-  // Relaxed phone validation for international formats
-  const phoneClean = (data.phone || '').replace(/[\s\-\(\)\+]/g, '');
-  if (!data.phone || phoneClean.length < 8) {
-    errors.phone = 'Please provide a valid contact number (at least 8 digits).';
-  }
-
+  // Dates
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -67,42 +91,43 @@ export const validateEnquiry = (data: Partial<BookingEnquiry>): ValidationErrors
     }
   }
 
-  if (!data.guests || data.guests < 1 || data.guests > 12) {
-    errors.guests = 'Please select between 1 and 12 guests.';
+  // Guests: positive integer
+  if (!data.guests || data.guests < 1) {
+    errors.guests = 'Please specify number of guests.';
   }
 
-  if (!data.preferredRoom) {
-    errors.preferredRoom = 'Please select your preferred room category.';
+  // Purpose of visit
+  if (!data.purposeOfVisit) {
+    errors.purposeOfVisit = 'Please select your purpose of visit.';
   }
 
   return errors;
 };
 
 export const submitEnquiry = async (
-  enquiryData: Omit<BookingEnquiry, 'id' | 'createdAt'>,
+  enquiryData: Omit<EnquiryPayload, 'id' | 'createdAt'>,
   honeypot: string = ''
 ): Promise<{ success: boolean; referenceId: string; message: string }> => {
   // Anti-spam honeypot detection
-  if (honeypot.trim().length > 0) {
-    // Silently drop bot submission
+  if (honeypot && honeypot.trim().length > 0) {
     return {
       success: true,
       referenceId: `VA-${Date.now().toString(36).toUpperCase()}`,
-      message: 'Your enquiry has been received.',
+      message: 'Thank you. Your enquiry has been received. The property will contact you to confirm availability.',
     };
   }
 
-  // Server-side / client-side validation
-  const errors = validateEnquiry(enquiryData);
+  const errors = validateEnquiryForm(enquiryData);
   if (Object.keys(errors).length > 0) {
     throw new Error(Object.values(errors)[0]);
   }
 
-  const referenceId = `VA-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random() * 900)}`;
+  const referenceId = `VA-${Date.now().toString().slice(-6)}`;
   const utm = getStoredUTM();
 
-  const fullPayload: BookingEnquiry = {
+  const fullPayload: EnquiryPayload & { utm: Record<string, string | undefined> } = {
     ...enquiryData,
+    phone: normalizeIndianPhone(enquiryData.phone),
     id: referenceId,
     utm,
     createdAt: new Date().toISOString(),
@@ -114,12 +139,12 @@ export const submitEnquiry = async (
         {
           id: referenceId,
           full_name: fullPayload.fullName,
-          email: fullPayload.email,
           phone: fullPayload.phone,
+          email: fullPayload.email,
           check_in_date: fullPayload.checkInDate,
           check_out_date: fullPayload.checkOutDate,
           guests: fullPayload.guests,
-          preferred_room: fullPayload.preferredRoom,
+          purpose_of_visit: fullPayload.purposeOfVisit,
           message: fullPayload.message || null,
           utm_source: utm.utm_source || null,
           utm_medium: utm.utm_medium || null,
@@ -129,28 +154,27 @@ export const submitEnquiry = async (
       ]);
 
       if (error) {
-        console.warn('Supabase insert failed, falling back to local queue:', error);
+        console.warn('Supabase insert failed, saving to local queue:', error);
         saveToLocalQueue(fullPayload);
       }
     } catch (err) {
-      console.warn('Supabase call threw error, saving to local queue:', err);
+      console.warn('Supabase call error, saving to local queue:', err);
       saveToLocalQueue(fullPayload);
     }
   } else {
-    // No Supabase credentials configured, safely persist to offline queue
     saveToLocalQueue(fullPayload);
   }
 
-  trackEnquirySubmitted(fullPayload.preferredRoom, fullPayload.guests);
+  trackEnquirySubmitted(fullPayload.purposeOfVisit, fullPayload.guests);
 
   return {
     success: true,
     referenceId,
-    message: 'Thank you! Your availability enquiry has been sent to our villa reservations team.',
+    message: 'Thank you. Your enquiry has been received. The property will contact you to confirm availability.',
   };
 };
 
-const saveToLocalQueue = (enquiry: BookingEnquiry) => {
+const saveToLocalQueue = (enquiry: EnquiryPayload) => {
   if (typeof window === 'undefined') return;
   try {
     const existing = JSON.parse(localStorage.getItem('va_enquiries_queue') || '[]');
@@ -160,4 +184,3 @@ const saveToLocalQueue = (enquiry: BookingEnquiry) => {
     console.error('Failed to save enquiry locally:', e);
   }
 };
-

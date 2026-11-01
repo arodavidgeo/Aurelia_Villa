@@ -2,15 +2,17 @@
 <html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Anti-flash theme initialization script -->
     <script>
       (function() {
         try {
+          var urlParams = new URLSearchParams(window.location.search);
+          var paramTheme = urlParams.get('theme');
           var saved = localStorage.getItem('va_theme');
-          var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var theme = paramTheme || saved || 'light';
           document.documentElement.setAttribute('data-theme', theme);
         } catch (e) {
           document.documentElement.setAttribute('data-theme', 'light');
@@ -19,23 +21,23 @@
     </script>
 
     <!-- SEO Meta Tags -->
-    <title>Villa Aurelia — A Boutique Villa Stay | Serenity, Comfort, Memories</title>
-    <meta name="description" content="A boutique villa stay featuring thoughtfully appointed rooms, unhurried mornings, curated local experiences, and personalised hospitality in a peaceful setting." />
-    <meta name="keywords" content="Villa Aurelia, luxury boutique villa, boutique stay, luxury accommodation, holiday villa, peaceful retreat, private villa stay" />
+    <title>Villa Aurelia — A Private Villa Stay in Tirunelveli | ₹7,500 Exclusive Stay</title>
+    <meta name="description" content="Villa Aurelia: An entire private house in Tirunelveli for ₹7,500 per 24 hours. Two AC bedrooms, common living hall, kitchen, parking for 2 cars & 4 bikes, and terrace for gatherings." />
+    <meta name="keywords" content="Villa Aurelia, private villa stay in Tirunelveli, entire house stay in Tirunelveli, family villa stay, terrace celebration venue in Tirunelveli, villa rental Tirunelveli" />
     <link rel="canonical" href="https://villaaurelia.com" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://villaaurelia.com" />
-    <meta property="og:title" content="Villa Aurelia — A Boutique Villa Stay" />
-    <meta property="og:description" content="A quieter kind of luxury. Thoughtfully appointed rooms, unhurried mornings, and a stay that feels entirely your own." />
-    <meta property="og:image" content="/images/hero-courtyard.png" />
+    <meta property="og:title" content="Villa Aurelia — Your Space. Your Moments. Your Villa." />
+    <meta property="og:description" content="Experience the comfort of an entire private home in Tirunelveli. ₹7,500 for a 24-hour exclusive stay. Two AC bedrooms, hall, kitchen, parking, and terrace." />
+    <meta property="og:image" content="/images/villa/villa-aurelia-exterior-01.jpg" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Villa Aurelia — A Boutique Villa Stay" />
-    <meta name="twitter:description" content="A quieter kind of luxury. Thoughtfully appointed rooms, unhurried mornings, and a stay that feels entirely your own." />
-    <meta name="twitter:image" content="/images/hero-courtyard.png" />
+    <meta name="twitter:title" content="Villa Aurelia — Your Space. Your Moments. Your Villa." />
+    <meta name="twitter:description" content="An entire private home in Tirunelveli for family stays and celebrations. ₹7,500 / 24 hours exclusive stay." />
+    <meta name="twitter:image" content="/images/villa/villa-aurelia-exterior-01.jpg" />
 
     <!-- Google Fonts: Cormorant Garamond & DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -51,28 +53,31 @@
       "@context": "https://schema.org",
       "@type": "LodgingBusiness",
       "name": "Villa Aurelia",
-      "description": "A boutique villa retreat offering peaceful, nature-connected accommodation with personalized hospitality.",
+      "description": "One complete private house in Tirunelveli for family stays, gatherings and celebrations. ₹7,500 for a 24-hour stay.",
       "url": "https://villaaurelia.com",
-      "telephone": "+91 98765 43210",
-      "email": "info@villaaurelia.com",
+      "logo": "https://villaaurelia.com/logo/villa-aurelia-logo.png",
+      "image": "https://villaaurelia.com/images/villa/villa-aurelia-exterior-01.jpg",
+      "telephone": "+919629668800",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "123 Villa Aurelia",
-        "addressLocality": "Coastal Haven",
+        "streetAddress": "H-18, TNHB Colony, Stage - 1, Bharani Nagar, VM Chatram",
+        "addressLocality": "Tirunelveli",
+        "postalCode": "627011",
         "addressRegion": "Tamil Nadu",
         "addressCountry": "IN"
       },
-      "priceRange": "₹4,500 - ₹8,500",
-      "checkinTime": "14:00",
-      "checkoutTime": "11:00",
-      "petsAllowed": false,
+      "makesOffer": {
+        "@type": "Offer",
+        "price": "7500",
+        "priceCurrency": "INR",
+        "description": "24-hour exclusive stay for the entire private villa"
+      },
       "amenityFeature": [
-        { "@type": "LocationFeatureSpecification", "name": "Swimming Pool", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "Free High-Speed Wi-Fi", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "Curated Dining", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "Private Parking", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "Lush Tropical Gardens", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "Air Conditioning", "value": true }
+        { "@type": "LocationFeatureSpecification", "name": "Air Conditioning", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Private Parking for 2 Cars and 4 Bikes", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Guest Kitchen", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Terrace for Gatherings", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Common Living Hall", "value": true }
       ]
     }
     </script>

@@ -13,11 +13,12 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryTheme = urlParams.get('theme') as Theme;
+      if (queryTheme === 'light' || queryTheme === 'dark') return queryTheme;
       const saved = localStorage.getItem('va_theme') as Theme;
       if (saved === 'light' || saved === 'dark') return saved;
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
+      return 'light';
     }
     return 'light';
   });

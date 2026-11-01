@@ -10,6 +10,7 @@ export default {
       colors: {
         theme: {
           bg: 'var(--page-bg)',
+          'bg-secondary': 'var(--bg-secondary)',
           surface: 'var(--surface)',
           'surface-raised': 'var(--surface-raised)',
           'surface-deep': 'var(--surface-deep)',
@@ -22,17 +23,16 @@ export default {
           'footer-text': 'var(--footer-text)',
           'footer-muted': 'var(--footer-muted)',
         },
-        // Static references for specific design elements
         gold: {
-          light: '#D0AD70',
-          DEFAULT: '#AE8950',
-          dark: '#8D6938',
-          pale: '#E7C995',
+          light: '#D0AE78',
+          DEFAULT: '#A77D43',
+          dark: '#8A6431',
+          pale: '#E5C38E',
         },
         olive: {
-          DEFAULT: '#263321',
-          muted: '#59614B',
-          detail: '#333A2A',
+          DEFAULT: '#303526',
+          muted: '#46503A',
+          detail: '#2E3426',
         },
         espresso: {
           canvas: '#493629',

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { BookingEnquiry, Room } from '../types';
+import { EnquiryPayload } from '../services/enquiryService';
 
 interface BookingContextType {
   checkInDate: string;
@@ -8,15 +8,13 @@ interface BookingContextType {
   setCheckOutDate: (date: string) => void;
   guests: number;
   setGuests: (guests: number) => void;
-  preferredRoom: string;
-  setPreferredRoom: (room: string) => void;
-  selectedRoomForModal: Room | null;
-  setSelectedRoomForModal: (room: Room | null) => void;
-  confirmationModalData: { referenceId: string; enquiry: Partial<BookingEnquiry> } | null;
-  setConfirmationModalData: (data: { referenceId: string; enquiry: Partial<BookingEnquiry> } | null) => void;
+  purposeOfVisit: string;
+  setPurposeOfVisit: (purpose: string) => void;
+  confirmationModalData: { referenceId: string; enquiry: Partial<EnquiryPayload> } | null;
+  setConfirmationModalData: (data: { referenceId: string; enquiry: Partial<EnquiryPayload> } | null) => void;
   activePolicyModal: string | null;
   setActivePolicyModal: (policy: string | null) => void;
-  scrollToEnquiry: (prefillRoom?: string) => void;
+  scrollToEnquiry: () => void;
 }
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
@@ -24,27 +22,22 @@ const BookingContext = createContext<BookingContextType | undefined>(undefined);
 export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [checkInDate, setCheckInDate] = useState<string>('');
   const [checkOutDate, setCheckOutDate] = useState<string>('');
-  const [guests, setGuests] = useState<number>(2);
-  const [preferredRoom, setPreferredRoom] = useState<string>('');
-  const [selectedRoomForModal, setSelectedRoomForModal] = useState<Room | null>(null);
+  const [guests, setGuests] = useState<number>(4);
+  const [purposeOfVisit, setPurposeOfVisit] = useState<string>('Family Stay');
   const [confirmationModalData, setConfirmationModalData] = useState<{
     referenceId: string;
-    enquiry: Partial<BookingEnquiry>;
+    enquiry: Partial<EnquiryPayload>;
   } | null>(null);
   const [activePolicyModal, setActivePolicyModal] = useState<string | null>(null);
 
-  const scrollToEnquiry = (prefillRoom?: string) => {
-    if (prefillRoom) {
-      setPreferredRoom(prefillRoom);
-    }
+  const scrollToEnquiry = () => {
     const el = document.getElementById('contact');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
-      // Focus on first input after scroll
       setTimeout(() => {
         const input = document.getElementById('enquiry-name');
         input?.focus();
-      }, 500);
+      }, 400);
     }
   };
 
@@ -57,10 +50,8 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         setCheckOutDate,
         guests,
         setGuests,
-        preferredRoom,
-        setPreferredRoom,
-        selectedRoomForModal,
-        setSelectedRoomForModal,
+        purposeOfVisit,
+        setPurposeOfVisit,
         confirmationModalData,
         setConfirmationModalData,
         activePolicyModal,
@@ -80,4 +71,3 @@ export const useBooking = (): BookingContextType => {
   }
   return context;
 };
-

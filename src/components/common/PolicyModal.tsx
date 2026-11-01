@@ -39,19 +39,22 @@ export const PolicyModal: React.FC = () => {
             </h3>
             <div className="space-y-4 text-xs text-theme-text-secondary leading-relaxed font-sans">
               <p>
-                <strong>1. Check-In & Check-Out:</strong> Standard check-in time is 2:00 PM and check-out time is 11:00 AM. Early arrivals or late departures are subject to villa occupancy and require prior coordination.
+                <strong>1. Exclusive Private Booking:</strong> Villa Aurelia is rented as an entire private residence (Hall, 2 AC Bedrooms, 2 Attached Toilets, Guest Kitchen, Parking, and Terrace). Rooms are not booked separately to unrelated guests.
               </p>
               <p>
-                <strong>2. Guest Identification:</strong> Government-issued photo identification (Passport, Aadhaar, Driver’s License) is required for all registered adult guests at check-in.
+                <strong>2. Check-In & Check-Out Schedule:</strong> A standard reservation covers a full 24-hour exclusive stay at ₹7,500. Exact check-in and check-out timing is confirmed by the property at the time of enquiry.
               </p>
               <p>
-                <strong>3. Quiet Hours:</strong> To preserve the calm and serene atmosphere of the villa, outdoor music and loud gatherings are restricted between 10:00 PM and 7:00 AM.
+                <strong>3. Guest Identification:</strong> Government-issued photo identification (Aadhaar, Passport, Driver’s License) is required for primary guests upon arrival.
               </p>
               <p>
-                <strong>4. Smoking & Safety:</strong> Smoking is strictly prohibited inside the bedrooms and enclosed suites. Designated outdoor smoking areas are available.
+                <strong>4. Community & Neighbourhood Courtesy:</strong> Located in residential TNHB Colony, guests are kindly requested to maintain respectful sound levels, especially during evening and nighttime hours.
               </p>
               <p>
-                <strong>5. Property Care:</strong> Guests are expected to treat the villa spaces, gardens, and amenities with care. Any damage beyond reasonable wear will be billed at actual repair or replacement cost.
+                <strong>5. Terrace & Gathering Guidelines:</strong> The open terrace can host birthdays, celebrations, and family gatherings. Event plans, guest counts, and setup requirements are confirmed by the property at the time of enquiry.
+              </p>
+              <p>
+                <strong>6. Property Care & Security Deposit:</strong> Guests are requested to care for the home and appliances. Refundable security deposit requirements, if any, are confirmed by the property at the time of enquiry.
               </p>
             </div>
           </>
@@ -69,19 +72,13 @@ export const PolicyModal: React.FC = () => {
             </h3>
             <div className="space-y-4 text-xs text-theme-text-secondary leading-relaxed font-sans">
               <p>
-                <strong>Free Cancellation Window:</strong> Cancellations made at least 7 days prior to the scheduled check-in date receive a 100% refund of any deposit paid.
+                <strong>Advance Booking & Confirmation:</strong> All reservations are arranged directly with the host. Advance payment, reservation deposit, and reschedule options are confirmed by the property at the time of enquiry.
               </p>
               <p>
-                <strong>Moderate Cancellation (3 to 7 Days):</strong> Cancellations made between 3 and 7 days prior to arrival incur a 50% cancellation fee of the first night’s stay.
+                <strong>Cancellation Window:</strong> Specific cancellation terms and eligible refund timelines are confirmed by the property at the time of enquiry.
               </p>
               <p>
-                <strong>Short Notice / No Show (Under 48 Hours):</strong> Cancellations made within 48 hours of check-in, or failure to arrive without prior notification, are non-refundable.
-              </p>
-              <p>
-                <strong>Refund Processing:</strong> Approved refunds are credited back to the original payment source within 5–7 business days.
-              </p>
-              <p className="text-[11px] text-theme-text-secondary/80 italic">
-                * Note: Peak season dates (December 20 – January 5) may require customized non-refundable deposit terms as communicated during reservation confirmation.
+                <strong>Direct Coordination:</strong> For any modifications, date adjustments, or queries regarding an existing reservation, please reach the property directly at +91 96296 68800 or via WhatsApp.
               </p>
             </div>
           </>
@@ -99,16 +96,13 @@ export const PolicyModal: React.FC = () => {
             </h3>
             <div className="space-y-4 text-xs text-theme-text-secondary leading-relaxed font-sans">
               <p>
-                <strong>Data Collection:</strong> We collect only the information necessary to facilitate your villa stay reservation: your name, contact phone, email address, dates of travel, and special preferences.
+                <strong>Data Collection:</strong> We collect only the contact information required to coordinate your private stay at Villa Aurelia: guest name, contact phone number, dates of stay, expected guest count, and purpose of visit.
               </p>
               <p>
-                <strong>Use of Information:</strong> Your personal data is used solely for reservation communications, guest hospitality coordination, and regulatory stay compliance. We never sell, rent, or trade guest personal information to third parties.
+                <strong>Use of Information:</strong> Guest details are used exclusively for direct stay coordination, reservation confirmation, and local hospitality communication. Information is never sold, shared, or distributed to third parties.
               </p>
               <p>
-                <strong>Security:</strong> All enquiry transmissions are encrypted over HTTPS. Stored records are accessible strictly to authorized villa hospitality staff.
-              </p>
-              <p>
-                <strong>Your Rights:</strong> You may request review or deletion of your booking enquiry records at any time by contacting info@villaaurelia.com.
+                <strong>Direct Communication:</strong> Enquiries submitted via WhatsApp or phone connect directly with the villa management (+91 96296 68800).
               </p>
             </div>
           </>
@@ -120,7 +114,7 @@ export const PolicyModal: React.FC = () => {
             <AlertCircle className="w-8 h-8 text-theme-accent mx-auto mb-2" />
             <h4 className="font-serif text-xl text-theme-text-primary">Policy Information</h4>
             <p className="text-xs text-theme-text-secondary mt-2">
-              Please contact our front office at info@villaaurelia.com for detailed policy enquiries.
+              Please contact Villa Aurelia directly at +91 96296 68800 for any specific questions.
             </p>
           </div>
         );

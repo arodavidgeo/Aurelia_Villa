@@ -5,7 +5,9 @@
 @layer base {
   :root,
   [data-theme="light"] {
+    /* Previous Light Beige Palette */
     --page-bg: #F4F0E6;
+    --bg-secondary: #E8DECE;
     --surface: #FBF8F1;
     --surface-raised: #FFFDF8;
     --surface-deep: #E9E0D1;
@@ -14,6 +16,7 @@
     --accent: #AE8950;
     --accent-strong: #8D6938;
     --border: #D8C6A6;
+    --accent-olive: #46503A;
     --footer-bg: #263321;
     --footer-text: #F4F0E6;
     --footer-muted: #D8C6A6;
@@ -23,21 +26,24 @@
   }
 
   [data-theme="dark"] {
-    --page-bg: #493629;
-    --surface: #594333;
-    --surface-raised: #654D39;
-    --surface-deep: #3D2D23;
-    --text-primary: #F3E8D4;
-    --text-secondary: #D8C8AF;
-    --accent: #D0AD70;
-    --accent-strong: #E7C995;
-    --border: #8A6D4F;
-    --footer-bg: #3D2D23;
-    --footer-text: #F3E8D4;
-    --footer-muted: #D8C8AF;
-    --input-bg: #523D2E;
-    --focus-ring: rgba(208, 173, 112, 0.45);
-    --botanical-stroke: #D0AD70;
+    /* Exact User-Supplied Dark Beige Reference (#B8A999) — Calm, Matte & Non-Brownish */
+    --page-bg: #B8A999;
+    --bg-secondary: #ADA091;
+    --surface: #C5B8AA;
+    --surface-raised: #CFBFB1;
+    --surface-deep: #2A241F;
+    --text-primary: #231F1B;
+    --text-secondary: #4D443B;
+    --accent: #6E5336;
+    --accent-strong: #543E26;
+    --border: #9D8E7E;
+    --accent-deep: #2A241F;
+    --footer-bg: #221E1A;
+    --footer-text: #EAE3D8;
+    --footer-muted: #B8A999;
+    --input-bg: #C7BBAE;
+    --focus-ring: rgba(110, 83, 54, 0.45);
+    --botanical-stroke: #543E26;
   }
 
   html {

@@ -1,99 +1,87 @@
 import React from 'react';
-import { Clock, ShieldAlert, CreditCard, Users, FileCheck } from 'lucide-react';
+import { Check, ShieldCheck, Clock, FileText } from 'lucide-react';
+import { PROPERTY } from '../../content/property';
 
 export const BookingPoliciesSection: React.FC = () => {
-  const policies = [
-    {
-      title: 'Check-in & Check-out',
-      icon: Clock,
-      details: [
-        'Check-in: From 2:00 PM onwards',
-        'Check-out: By 11:00 AM',
-        'Valid government ID required at check-in',
-      ],
-    },
-    {
-      title: 'Payment & Advance',
-      icon: CreditCard,
-      details: [
-        '50% deposit required upon confirmation',
-        'Balance payable upon arrival at villa',
-        'UPI, NetBanking & major cards accepted',
-      ],
-    },
-    {
-      title: 'Cancellation Policy',
-      icon: ShieldAlert,
-      details: [
-        'Full refund up to 7 days before arrival',
-        '50% refund 3 to 7 days before arrival',
-        'Non-refundable within 48 hours of check-in',
-      ],
-    },
-    {
-      title: 'Guest & House Rules',
-      icon: Users,
-      details: [
-        'Quiet hours: 10:00 PM – 7:00 AM',
-        'Non-smoking indoors (smoking in outdoor areas)',
-        'Pets not permitted to protect garden ecosystem',
-      ],
-    },
-  ];
-
   return (
-    <section id="policies" className="relative py-16 border-t border-theme-border/40 font-sans">
+    <section id="policies" className="relative py-16 sm:py-20 border-t border-theme-border/40 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-left mb-10 max-w-2xl">
-          <span className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-theme-accent font-medium mb-2 block">
-            STAY POLICIES
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl text-theme-text-primary font-normal leading-tight mb-2">
-            Clear, transparent policies
-          </h2>
-          <p className="text-xs sm:text-sm text-theme-text-secondary leading-relaxed font-sans">
-            We believe in honest hospitality without hidden surprises. Below are our verified property guidelines.
-          </p>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left Pricing Feature Card */}
+          <div className="lg:col-span-6 bg-theme-surface border border-theme-border p-6 sm:p-8 shadow-sm">
+            <span className="text-[11px] uppercase tracking-widest text-theme-accent font-medium block mb-1">
+              {PROPERTY.pricingCardTitle}
+            </span>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {policies.map((p) => {
-            const Icon = p.icon;
-            return (
-              <div
-                key={p.title}
-                className="bg-theme-surface border border-theme-border p-5 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="p-2 w-fit bg-theme-surface-raised border border-theme-border text-theme-accent mb-3">
-                    <Icon className="w-4 h-4" />
-                  </div>
-                  <h3 className="font-serif text-lg text-theme-text-primary font-medium mb-3">
-                    {p.title}
-                  </h3>
-                  <ul className="space-y-1.5 text-xs text-theme-text-secondary">
-                    {p.details.map((detail) => (
-                      <li key={detail} className="flex items-start gap-1.5">
-                        <span className="text-theme-accent mt-0.5">•</span>
-                        <span>{detail}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            <div className="flex items-baseline gap-2 mb-4">
+              <span className="font-serif text-4xl sm:text-5xl text-theme-text-primary font-normal">
+                {PROPERTY.priceDisplay}
+              </span>
+              <span className="text-xs text-theme-text-secondary font-sans">
+                / {PROPERTY.priceNote}
+              </span>
+            </div>
+
+            <div className="w-full h-[1px] bg-theme-border/60 mb-6" />
+
+            <h4 className="font-serif text-base text-theme-text-primary font-medium mb-3">
+              Included In Your Exclusive Stay:
+            </h4>
+
+            <ul className="space-y-2.5 text-xs text-theme-text-secondary mb-6">
+              {PROPERTY.pricingIncludes.map((inc) => (
+                <li key={inc} className="flex items-start gap-2.5">
+                  <Check className="w-4 h-4 text-theme-accent shrink-0 mt-0.5" />
+                  <span>{inc}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="p-3 bg-theme-surface-raised border border-theme-border/70 text-xs text-theme-text-secondary">
+              {PROPERTY.pricingTermsNote}
+            </div>
+          </div>
+
+          {/* Right Policies & Owner Confirmation Information */}
+          <div className="lg:col-span-6 space-y-5">
+            <div className="p-5 bg-theme-surface border border-theme-border">
+              <div className="flex items-center gap-2 mb-2 text-theme-accent">
+                <Clock className="w-4 h-4" />
+                <h4 className="font-serif text-base text-theme-text-primary font-medium">
+                  Stay Schedule & Timings
+                </h4>
               </div>
-            );
-          })}
-        </div>
+              <p className="text-xs text-theme-text-secondary leading-relaxed">
+                Check-in and check-out timings, early arrivals and late departures are confirmed directly by the property at the time of your enquiry.
+              </p>
+            </div>
 
-        {/* Pricing Transparency Note */}
-        <div className="mt-8 p-4 bg-theme-surface border border-theme-border/60 flex items-start gap-3 text-xs text-theme-text-secondary">
-          <FileCheck className="w-4 h-4 text-theme-accent shrink-0 mt-0.5" />
-          <div>
-            <strong className="text-theme-text-primary">Transparent Pricing Commitment:</strong> All published rates are subject to standard applicable state hospitality goods and service tax (GST 12% / 18% as applicable). No booking fees, hidden resort surcharges, or mandatory service levies are charged.
+            <div className="p-5 bg-theme-surface border border-theme-border">
+              <div className="flex items-center gap-2 mb-2 text-theme-accent">
+                <ShieldCheck className="w-4 h-4" />
+                <h4 className="font-serif text-base text-theme-text-primary font-medium">
+                  Cancellations & House Guidelines
+                </h4>
+              </div>
+              <p className="text-xs text-theme-text-secondary leading-relaxed">
+                Security deposits, cancellation terms, and general property usage guidelines are confirmed with the property at the time of booking.
+              </p>
+            </div>
+
+            <div className="p-5 bg-theme-surface border border-theme-border">
+              <div className="flex items-center gap-2 mb-2 text-theme-accent">
+                <FileText className="w-4 h-4" />
+                <h4 className="font-serif text-base text-theme-text-primary font-medium">
+                  Transparent Package Guarantee
+                </h4>
+              </div>
+              <p className="text-xs text-theme-text-secondary leading-relaxed">
+                No hidden per-room markups or unexpected resort surcharges. You reserve the entire villa directly under one clear agreement.
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 };
-

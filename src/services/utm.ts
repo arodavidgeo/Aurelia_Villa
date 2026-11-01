@@ -7,7 +7,7 @@ export const initUTMTracking = (): UTMData => {
 
   try {
     const params = new URLSearchParams(window.location.search);
-    const utmKeys: (keyof UTMData)[] = [
+    const utmKeys: (keyof UTMData & string)[] = [
       'utm_source',
       'utm_medium',
       'utm_campaign',

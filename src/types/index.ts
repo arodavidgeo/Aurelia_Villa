@@ -1,51 +1,44 @@
-export interface Room {
+export interface VillaSpace {
   id: string;
   name: string;
   tag: string;
-  category: 'deluxe' | 'premium' | 'suite';
   description: string;
-  pricePerNight: number;
-  formattedPrice: string;
   image: string;
-  amenities: {
-    bed: string;
-    guests: string;
-    size: string;
-    bathroom: string;
-  };
-  additionalFeatures?: string[];
+  features: string[];
 }
 
 export interface GalleryPhoto {
   id: string;
   title: string;
-  category: 'rooms' | 'outdoor' | 'dining' | 'interiors' | 'surroundings';
+  category: 'exterior' | 'bedrooms' | 'living' | 'kitchen' | 'amenities';
   src: string;
   alt: string;
+  caption?: string;
 }
 
-export interface LocationAttraction {
+export interface LocationLandmark {
   id: string;
   title: string;
   distance: string;
-  image: string;
+  duration: string;
+  description: string;
 }
 
 export interface BookingEnquiry {
   id?: string;
   fullName: string;
-  email: string;
   phone: string;
   checkInDate: string;
   checkOutDate: string;
   guests: number;
-  preferredRoom: string;
-  message?: string;
+  purposeOfVisit: string;
+  specialRequests?: string;
   utm?: UTMData;
   createdAt?: string;
 }
 
 export interface UTMData {
+  [key: string]: string | undefined;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -66,4 +59,3 @@ export interface FAQItem {
   answer: string;
   category?: string;
 }
-

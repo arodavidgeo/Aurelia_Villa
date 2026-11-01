@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import { Logo } from '../common/Logo';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { useBooking } from '../../context/BookingContext';
-import { trackBookingCTAClick } from '../../services/analytics';
+import { PROPERTY } from '../../content/property';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,15 +28,16 @@ export const Header: React.FC = () => {
   }, [mobileMenuOpen]);
 
   const navLinks = [
-    { label: 'STAY', href: '#stay' },
     { label: 'THE VILLA', href: '#the-villa' },
-    { label: 'EXPERIENCES', href: '#experiences' },
+    { label: 'AMENITIES', href: '#amenities' },
+    { label: 'TERRACE', href: '#terrace' },
     { label: 'GALLERY', href: '#gallery' },
     { label: 'LOCATION', href: '#location' },
+    { label: 'FAQ', href: '#faq' },
+    { label: 'CONTACT', href: '#contact' },
   ];
 
   const handleEnquireClick = () => {
-    trackBookingCTAClick('header_nav_button');
     setMobileMenuOpen(false);
     scrollToEnquiry();
   };
@@ -55,27 +56,35 @@ export const Header: React.FC = () => {
       style={{ backgroundColor: 'var(--page-bg)' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Brand Logo */}
+        {/* Official Brand Logo */}
         <Logo />
 
         {/* Desktop Navigation Links */}
         <nav
           aria-label="Main Navigation"
-          className="hidden md:flex items-center space-x-6 lg:space-x-8"
+          className="hidden lg:flex items-center space-x-6 xl:space-x-8"
         >
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="text-[11px] lg:text-xs font-sans tracking-[0.16em] uppercase text-theme-text-primary hover:text-theme-accent transition-colors duration-200"
+              className="text-[11px] xl:text-xs font-sans tracking-[0.16em] uppercase text-theme-text-primary hover:text-theme-accent transition-colors duration-200"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* Right Actions: Theme Toggle & Enquire/Book */}
-        <div className="hidden md:flex items-center gap-3.5">
+        {/* Right Actions: Phone, Theme Toggle & Enquire */}
+        <div className="hidden sm:flex items-center gap-3.5">
+          <a
+            href={PROPERTY.phoneTel}
+            className="hidden xl:flex items-center gap-1.5 text-xs text-theme-text-secondary hover:text-theme-accent font-sans transition-colors"
+          >
+            <Phone className="w-3.5 h-3.5 text-theme-accent" />
+            <span>{PROPERTY.phoneDisplay}</span>
+          </a>
+
           <ThemeToggle />
 
           <button
@@ -88,7 +97,7 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Mobile Hamburger Button */}
-        <div className="flex md:hidden items-center gap-2">
+        <div className="flex lg:hidden items-center gap-2">
           <ThemeToggle />
           <button
             type="button"
@@ -107,26 +116,43 @@ export const Header: React.FC = () => {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 top-[60px] z-50 border-t border-theme-border md:hidden flex flex-col justify-between p-6 animate-fadeIn site-mobile-drawer"
+          className="fixed inset-0 top-[60px] z-50 border-t border-theme-border lg:hidden flex flex-col justify-between p-6 animate-fadeIn site-mobile-drawer"
           style={{ backgroundColor: 'var(--page-bg)' }}
         >
-          <div className="flex flex-col space-y-6 pt-4">
+          <div className="flex flex-col space-y-4 pt-2">
+            <div className="pb-3 border-b border-theme-border/30">
+              <span className="text-xs font-serif uppercase tracking-widest text-theme-accent block mb-1">
+                Entire Villa Stay
+              </span>
+              <span className="text-sm font-serif text-theme-text-primary">
+                {PROPERTY.priceDisplay} · 24-Hour Stay
+              </span>
+            </div>
+
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={handleNavLinkClick}
-                className="text-base font-serif tracking-[0.14em] uppercase text-theme-text-primary hover:text-theme-accent transition-colors border-b border-theme-border/30 pb-3"
+                className="text-base font-serif tracking-[0.12em] uppercase text-theme-text-primary hover:text-theme-accent transition-colors border-b border-theme-border/30 pb-2.5"
               >
                 {link.label}
               </a>
             ))}
+
+            <a
+              href={PROPERTY.phoneTel}
+              className="flex items-center gap-2 text-sm text-theme-text-primary font-sans pt-1"
+            >
+              <Phone className="w-4 h-4 text-theme-accent" />
+              <span>Call: {PROPERTY.phoneDisplay}</span>
+            </a>
           </div>
 
-          <div className="pt-6 space-y-4 border-t border-theme-border">
+          <div className="pt-4 space-y-3 border-t border-theme-border">
             <div className="flex items-center justify-between">
               <span className="text-xs uppercase tracking-wider text-theme-text-secondary">
-                Appearance Mode
+                Appearance
               </span>
               <ThemeToggle showLabel />
             </div>
@@ -134,9 +160,9 @@ export const Header: React.FC = () => {
             <button
               type="button"
               onClick={handleEnquireClick}
-              className="w-full py-3 border border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-theme-bg text-xs font-sans tracking-[0.2em] uppercase transition-colors"
+              className="w-full py-3 bg-theme-accent hover:bg-theme-accent-strong text-theme-bg dark:text-theme-surface-deep text-xs font-sans tracking-[0.2em] uppercase transition-colors"
             >
-              ENQUIRE / BOOK
+              ENQUIRE / BOOK · {PROPERTY.priceDisplay}
             </button>
           </div>
         </div>
@@ -144,4 +170,3 @@ export const Header: React.FC = () => {
     </header>
   );
 };
-

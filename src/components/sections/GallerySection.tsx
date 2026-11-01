@@ -1,72 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
-import { GalleryPhoto } from '../../types';
+import { ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
+import { VILLA_PHOTOS, ManifestPhoto } from '../../content/imageManifest';
 import { BotanicalBranch } from '../common/BotanicalBranch';
 
-export const GALLERY_ITEMS: GalleryPhoto[] = [
-  {
-    id: 'g-pool',
-    title: 'Sunlit Courtyard & Private Pool',
-    category: 'outdoor',
-    src: '/images/gallery-pool.png',
-    alt: 'Villa Aurelia swimming pool surrounded by colonial architecture and tropical palms',
-  },
-  {
-    id: 'g-bedroom',
-    title: 'Master Deluxe Bedroom Suite',
-    category: 'rooms',
-    src: '/images/gallery-bedroom.png',
-    alt: 'Warmly lit bedroom with organic linen, teak headboard, and tranquil reading lamps',
-  },
-  {
-    id: 'g-garden',
-    title: 'Lush Courtyard Verandah',
-    category: 'outdoor',
-    src: '/images/gallery-garden.png',
-    alt: 'Verandah corridor overlooking lush tropical gardens and terracotta rooftops',
-  },
-  {
-    id: 'g-dining',
-    title: 'Alfresco Coastal Dining Table',
-    category: 'dining',
-    src: '/images/gallery-dining.png',
-    alt: 'Open air wooden dining setting prepared with fresh local seasonal breakfast',
-  },
-  {
-    id: 'g-interior',
-    title: 'Heritage Living Lounge',
-    category: 'interiors',
-    src: '/images/gallery-interior.png',
-    alt: 'Intimate guest lounge with handcrafted cane chairs, warm timber accents, and soft textiles',
-  },
-  {
-    id: 'g-outdoor',
-    title: 'Shaded Garden Pavilions',
-    category: 'surroundings',
-    src: '/images/gallery-outdoor.png',
-    alt: 'Outdoor shaded seating corner surrounded by serene greenery for quiet reading',
-  },
-];
-
 export const GallerySection: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [activeFilter, setActiveFilter] = useState<string>('All');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const categories = [
-    { label: 'All', value: 'all' },
-    { label: 'Rooms', value: 'rooms' },
-    { label: 'Outdoor', value: 'outdoor' },
-    { label: 'Dining', value: 'dining' },
-    { label: 'Interiors', value: 'interiors' },
-    { label: 'Surroundings', value: 'surroundings' },
-  ];
+  // Available filters from authenticated villa photos
+  const availableCategories = ['All', 'Living Hall', 'Bedrooms', 'Kitchen', 'Restrooms', 'Terrace & Exterior'];
 
   const filteredPhotos =
-    activeCategory === 'all'
-      ? GALLERY_ITEMS
-      : GALLERY_ITEMS.filter((item) => item.category === activeCategory);
+    activeFilter === 'All'
+      ? VILLA_PHOTOS
+      : activeFilter === 'Living Hall'
+      ? VILLA_PHOTOS.filter((p) => p.category === 'Hall')
+      : activeFilter === 'Bedrooms'
+      ? VILLA_PHOTOS.filter((p) => p.category === 'Bedroom 1' || p.category === 'Bedroom 2')
+      : activeFilter === 'Kitchen'
+      ? VILLA_PHOTOS.filter((p) => p.category === 'Kitchen')
+      : activeFilter === 'Restrooms'
+      ? VILLA_PHOTOS.filter((p) => p.category.startsWith('Toilet'))
+      : activeFilter === 'Terrace & Exterior'
+      ? VILLA_PHOTOS.filter((p) => p.category === 'Exterior' || p.category === 'Terrace')
+      : VILLA_PHOTOS;
 
-  // Keyboard navigation for lightbox
+  // Keyboard navigation & Esc listener
   useEffect(() => {
     if (lightboxIndex === null) return;
 
@@ -114,55 +73,58 @@ export const GallerySection: React.FC = () => {
   };
 
   return (
-    <section id="gallery" className="relative py-16 sm:py-20 border-t border-theme-border/40 overflow-hidden">
-      {/* Botanical detail in upper right whitespace */}
+    <section id="gallery" className="relative py-16 sm:py-20 border-t border-theme-border/40 overflow-hidden font-sans">
       <BotanicalBranch position="top-right" opacity={0.25} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
         <div className="text-left mb-8 max-w-2xl">
           <span className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-theme-accent font-medium mb-2 block">
             GALLERY
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl text-theme-text-primary font-normal leading-tight mb-2">
-            A glimpse of Villa Aurelia
+            A Glimpse Inside Villa Aurelia
           </h2>
           <p className="text-xs sm:text-sm text-theme-text-secondary leading-relaxed font-sans">
-            Explore our spaces, rooms and surroundings through a curated collection of photographs.
+            Authentic photographs of the private residence, hall, air-conditioned bedrooms, kitchen, and bathroom.
           </p>
         </div>
 
-        {/* Category Filters */}
+        {/* Aria live announcement */}
+        <div aria-live="polite" className="sr-only">
+          Showing {activeFilter} photos, {filteredPhotos.length} items visible.
+        </div>
+
+        {/* Filters */}
         <div className="flex flex-wrap items-center gap-2 mb-8">
-          {categories.map((cat) => {
-            const isActive = activeCategory === cat.value;
+          {availableCategories.map((cat) => {
+            const isActive = activeFilter === cat;
             return (
               <button
-                key={cat.value}
+                key={cat}
                 type="button"
-                onClick={() => setActiveCategory(cat.value)}
+                onClick={() => setActiveFilter(cat)}
                 className={`px-3.5 py-1.5 text-xs font-sans tracking-wider transition-all duration-200 border ${
                   isActive
-                    ? 'bg-olive text-ivory-canvas border-olive dark:bg-gold-pale dark:text-espresso-canvas dark:border-gold-pale font-medium'
+                    ? 'bg-theme-accent text-theme-bg dark:text-theme-surface-deep border-theme-accent font-medium shadow-sm'
                     : 'bg-theme-surface text-theme-text-secondary border-theme-border hover:border-theme-accent hover:text-theme-text-primary'
                 }`}
               >
-                {cat.label}
+                {cat}
               </button>
             );
           })}
         </div>
 
-        {/* 3 columns x 2 rows image grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-10">
-          {filteredPhotos.map((photo, index) => (
+        {/* Photos Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          {filteredPhotos.map((photo: ManifestPhoto, index: number) => (
             <div
               key={photo.id}
               onClick={() => openLightbox(index)}
-              className="group relative cursor-pointer overflow-hidden border border-theme-border bg-theme-surface aspect-[16/10] shadow-sm"
+              className="group relative cursor-pointer overflow-hidden border border-theme-border bg-theme-surface aspect-[4/3] shadow-sm"
               role="button"
               tabIndex={0}
-              aria-label={`View ${photo.title} in lightbox`}
+              aria-label={`View photo: ${photo.title} in lightbox`}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
@@ -170,31 +132,34 @@ export const GallerySection: React.FC = () => {
                 }
               }}
             >
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                <div className="p-2.5 bg-theme-surface text-theme-accent rounded-full shadow-md">
-                  <ZoomIn className="w-5 h-5" />
+              <picture>
+                <source type="image/webp" srcSet={photo.srcSet} sizes="(max-width: 768px) 100vw, 33vw" />
+                <img
+                  src={photo.srcJpg}
+                  alt={photo.alt}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  style={{ objectPosition: photo.focalPoint }}
+                  width={photo.width}
+                  height={photo.height}
+                />
+              </picture>
+
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-between p-4">
+                <span className="self-end p-2 bg-theme-surface/90 text-theme-accent rounded-sm shadow-md">
+                  <ZoomIn className="w-4 h-4" />
+                </span>
+                <div>
+                  <span className="text-[10px] uppercase font-sans tracking-widest text-[#D0AE78] block">
+                    {photo.category}
+                  </span>
+                  <h4 className="font-serif text-sm text-[#F1E5D2] font-medium">
+                    {photo.title}
+                  </h4>
                 </div>
               </div>
             </div>
           ))}
-        </div>
-
-        {/* View Full Gallery action */}
-        <div className="flex justify-center">
-          <button
-            type="button"
-            onClick={() => openLightbox(0)}
-            className="px-6 py-2.5 border border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-theme-bg dark:hover:text-theme-surface-deep text-xs font-sans tracking-[0.18em] uppercase flex items-center gap-2 transition-all duration-200"
-          >
-            <span>VIEW FULL GALLERY</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
         </div>
       </div>
 
@@ -242,7 +207,7 @@ export const GallerySection: React.FC = () => {
             <ChevronRight className="w-6 h-6" />
           </button>
 
-          {/* Image & Caption Container */}
+          {/* Image & Caption */}
           <div
             className="relative max-w-4xl w-full max-h-[85vh] flex flex-col items-center justify-center"
             onClick={(e) => e.stopPropagation()}
@@ -252,15 +217,23 @@ export const GallerySection: React.FC = () => {
                 src={filteredPhotos[lightboxIndex].src}
                 alt={filteredPhotos[lightboxIndex].alt}
                 className="max-h-[70vh] w-auto object-contain mx-auto"
+                width={filteredPhotos[lightboxIndex].width}
+                height={filteredPhotos[lightboxIndex].height}
               />
             </div>
 
             <div className="mt-4 text-center">
-              <h3 className="font-serif text-lg text-white font-medium">
+              <span className="text-[10px] uppercase font-sans tracking-widest text-[#D0AE78] block">
+                {filteredPhotos[lightboxIndex].category}
+              </span>
+              <h3 className="font-serif text-lg text-white font-medium mt-0.5">
                 {filteredPhotos[lightboxIndex].title}
               </h3>
-              <p className="text-xs text-white/70 mt-1">
-                Image {lightboxIndex + 1} of {filteredPhotos.length}
+              <p className="text-xs text-white/70 max-w-lg mt-1 font-sans">
+                {filteredPhotos[lightboxIndex].description}
+              </p>
+              <p className="text-[11px] text-white/50 mt-1">
+                Photo {lightboxIndex + 1} of {filteredPhotos.length}
               </p>
             </div>
           </div>
@@ -269,4 +242,3 @@ export const GallerySection: React.FC = () => {
     </section>
   );
 };
-
