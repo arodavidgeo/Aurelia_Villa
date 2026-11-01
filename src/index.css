@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root,
+  [data-theme="light"] {
+    --page-bg: #F4F0E6;
+    --surface: #FBF8F1;
+    --surface-raised: #FFFDF8;
+    --surface-deep: #E9E0D1;
+    --text-primary: #263321;
+    --text-secondary: #655F54;
+    --accent: #AE8950;
+    --accent-strong: #8D6938;
+    --border: #D8C6A6;
+    --footer-bg: #263321;
+    --footer-text: #F4F0E6;
+    --footer-muted: #D8C6A6;
+    --input-bg: #FFFDF8;
+    --focus-ring: rgba(174, 137, 80, 0.45);
+    --botanical-stroke: #59614B;
+  }
+
+  [data-theme="dark"] {
+    --page-bg: #493629;
+    --surface: #594333;
+    --surface-raised: #654D39;
+    --surface-deep: #3D2D23;
+    --text-primary: #F3E8D4;
+    --text-secondary: #D8C8AF;
+    --accent: #D0AD70;
+    --accent-strong: #E7C995;
+    --border: #8A6D4F;
+    --footer-bg: #3D2D23;
+    --footer-text: #F3E8D4;
+    --footer-muted: #D8C8AF;
+    --input-bg: #523D2E;
+    --focus-ring: rgba(208, 173, 112, 0.45);
+    --botanical-stroke: #D0AD70;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    background-color: var(--page-bg);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+
+  /* Anchor link offset for sticky header */
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+
+  /* Accessible focus indicators */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom discreet scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--page-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
