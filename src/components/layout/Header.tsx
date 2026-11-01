@@ -28,6 +28,7 @@ export const Header: React.FC = () => {
   }, [mobileMenuOpen]);
 
   const navLinks = [
+    { label: 'EXPLORE', href: '#explore' },
     { label: 'THE VILLA', href: '#the-villa' },
     { label: 'AMENITIES', href: '#amenities' },
     { label: 'TERRACE', href: '#terrace' },

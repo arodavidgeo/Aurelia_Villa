@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HomeHero } from './components/sections/HomeHero';
+import { VillaExplorerSection } from './components/sections/VillaExplorerSection';
 import { TheVillaSection } from './components/sections/TheVillaSection';
 import { AmenitiesSection } from './components/sections/AmenitiesSection';
 import { TerraceSection } from './components/sections/TerraceSection';
@@ -18,6 +19,7 @@ import { ConfirmationModal } from './components/common/ConfirmationModal';
 import { PolicyModal } from './components/common/PolicyModal';
 import { CookieConsent } from './components/common/CookieConsent';
 import { ScrollProgress } from './components/motion/ScrollProgress';
+import { CustomCursor } from './components/motion/CustomCursor';
 import { NotFoundPage } from './components/pages/NotFoundPage';
 import { initUTMTracking } from './services/utm';
 import { trackPageView } from './services/analytics';
@@ -55,6 +57,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-theme-bg text-theme-text-primary transition-colors duration-200 flex flex-col selection:bg-theme-accent selection:text-white">
+      <CustomCursor />
       <ScrollProgress />
       <SkipToContent />
       <Header />
@@ -62,6 +65,9 @@ export const App: React.FC = () => {
       <main id="main-content" className="flex-1 pb-16 md:pb-0">
         {/* Screen 1: Home */}
         <HomeHero />
+
+        {/* Signature Interactive Section: Explore Villa Aurelia */}
+        <VillaExplorerSection />
 
         {/* Screen 2: The Villa Walkthrough */}
         <TheVillaSection />
