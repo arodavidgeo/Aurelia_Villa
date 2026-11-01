@@ -23,6 +23,18 @@
     --input-bg: #FFFDF8;
     --focus-ring: rgba(174, 137, 80, 0.45);
     --botanical-stroke: #59614B;
+
+    /* Cinematic Motion Tokens (Section 3) */
+    --duration-micro: 150ms;
+    --duration-button: 200ms;
+    --duration-nav: 220ms;
+    --duration-image: 400ms;
+    --duration-reveal: 600ms;
+    --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --reveal-distance: 24px;
+    --stagger-step: 70ms;
+    --parallax-max: 40px;
   }
 
   [data-theme="dark"] {
@@ -93,10 +105,48 @@
     background-color: var(--surface) !important;
     opacity: 1 !important;
   }
+
+  /* Progressive Enhancement: Hide-then-reveal ONLY under html.js */
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+    transition: opacity var(--duration-reveal) var(--ease-standard),
+                transform var(--duration-reveal) var(--ease-standard);
+  }
+
+  html.js [data-reveal="clip-wipe"] {
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+    transition: opacity var(--duration-reveal) var(--ease-standard),
+                clip-path var(--duration-reveal) var(--ease-standard);
+  }
+
+  html.js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* Scroll Progress Line */
+  .scroll-progress-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--accent);
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    z-index: 60;
+    pointer-events: none;
+  }
 }
 
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
   *,
   ::before,
   ::after {
@@ -104,6 +154,16 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  html.js [data-reveal],
+  html.js [data-reveal="clip-wipe"] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+  .scroll-progress-line {
+    display: none !important;
   }
 }
 
