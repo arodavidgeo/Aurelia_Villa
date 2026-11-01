@@ -7,6 +7,7 @@ import {
   Wind,
   Car,
   PartyPopper,
+  ChevronDown,
 } from 'lucide-react';
 import { BotanicalBranch } from '../common/BotanicalBranch';
 import { useBooking } from '../../context/BookingContext';
@@ -47,10 +48,10 @@ export const HomeHero: React.FC = () => {
   const highlightIcons = [Home, Wind, PartyPopper, Car];
 
   return (
-    <section id="home" className="relative pt-6 sm:pt-10 pb-16 overflow-hidden">
+    <section id="home" className="relative pt-6 sm:pt-10 pb-16 overflow-hidden min-h-[100svh] flex flex-col justify-between">
       <BotanicalBranch position="top-left" opacity={0.25} className="-translate-x-6" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex flex-col justify-center">
         {/* Split Hero Composition */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Text Column */}
@@ -59,10 +60,17 @@ export const HomeHero: React.FC = () => {
               {PROPERTY.eyebrow}
             </span>
 
+            {/* Masked Headline Reveals (Section 4) */}
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.5rem] font-normal leading-[1.1] text-theme-text-primary tracking-tight mb-4">
-              Your Space. <br />
-              Your Moments. <br />
-              <span className="text-theme-accent italic">Your Villa.</span>
+              <span className="block overflow-hidden">
+                <span className="hero-line-inner hero-line-1">Your Space.</span>
+              </span>
+              <span className="block overflow-hidden">
+                <span className="hero-line-inner hero-line-2">Your Moments.</span>
+              </span>
+              <span className="block overflow-hidden">
+                <span className="hero-line-inner hero-line-3 text-theme-accent italic">Your Villa.</span>
+              </span>
             </h1>
 
             <p className="text-sm sm:text-base font-sans text-theme-text-secondary leading-relaxed max-w-md mb-6">
@@ -87,7 +95,7 @@ export const HomeHero: React.FC = () => {
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-4">
               <a
-                href="#the-villa"
+                href="#explore"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-theme-accent hover:bg-theme-accent-strong text-theme-bg dark:text-theme-surface-deep text-xs font-sans tracking-[0.16em] uppercase transition-colors shadow-sm"
               >
                 <span>Explore the Villa</span>
@@ -104,25 +112,27 @@ export const HomeHero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Image Column (Authentic Villa Exterior & Gated Entry) */}
+          {/* Right Image Column (Authentic Villa Exterior & Architectural Slow Zoom) */}
           <div className="lg:col-span-7 relative z-10">
             <div className="relative overflow-hidden border border-theme-border shadow-md aspect-[4/3] sm:aspect-[16/11] bg-theme-surface">
-              <picture>
-                <source
-                  type="image/webp"
-                  srcSet="/images/villa/villa-aurelia-exterior-01-480w.webp 480w, /images/villa/villa-aurelia-exterior-01-800w.webp 800w, /images/villa/villa-aurelia-exterior-01.webp 1086w"
-                  sizes="(max-width: 768px) 100vw, 55vw"
-                />
-                <img
-                  src="/images/villa/villa-aurelia-exterior-01.jpg"
-                  alt="Villa Aurelia private gated villa exterior with stone compound wall, entry gate, and covered terrace pavilion in Tirunelveli"
-                  fetchPriority="high"
-                  loading="eager"
-                  className="w-full h-full object-cover object-[50%_30%]"
-                  width={1086}
-                  height={1448}
-                />
-              </picture>
+              <div className="hero-photo-zoom w-full h-full">
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcSet="/images/villa/villa-aurelia-exterior-01-480w.webp 480w, /images/villa/villa-aurelia-exterior-01-800w.webp 800w, /images/villa/villa-aurelia-exterior-01.webp 1086w"
+                    sizes="(max-width: 768px) 100vw, 55vw"
+                  />
+                  <img
+                    src="/images/villa/villa-aurelia-exterior-01.jpg"
+                    alt="Villa Aurelia private gated villa exterior with stone compound wall, entry gate, and covered terrace pavilion in Tirunelveli"
+                    fetchPriority="high"
+                    loading="eager"
+                    className="w-full h-full object-cover object-[50%_30%]"
+                    width={1086}
+                    height={1448}
+                  />
+                </picture>
+              </div>
             </div>
           </div>
         </div>
@@ -248,6 +258,18 @@ export const HomeHero: React.FC = () => {
               </div>
             );
           })}
+        </div>
+
+        {/* Scroll Nudge Indicator (Section 4) */}
+        <div className="flex justify-center mt-8 scroll-nudge-indicator" aria-hidden="true">
+          <a
+            href="#the-villa"
+            className="flex flex-col items-center gap-1 text-theme-text-secondary hover:text-theme-accent transition-colors"
+            aria-label="Scroll down to explore the villa"
+          >
+            <span className="text-[10px] tracking-[0.2em] uppercase font-sans">Scroll to Discover</span>
+            <ChevronDown className="w-4 h-4 stroke-[1.5]" />
+          </a>
         </div>
       </div>
     </section>
