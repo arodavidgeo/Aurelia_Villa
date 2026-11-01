@@ -96,3 +96,4 @@ export const BookingPoliciesSection: React.FC = () => {
     </section>
   );
 };
+

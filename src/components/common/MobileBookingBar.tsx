@@ -12,7 +12,11 @@ export const MobileBookingBar: React.FC = () => {
   };
 
   return (
-    <aside aria-label="Mobile booking action" className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-theme-surface/95 border-t border-theme-border px-4 py-2.5 flex items-center justify-between gap-3 shadow-lg">
+    <aside
+      aria-label="Mobile booking action"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-30 border-t border-theme-border px-4 py-2.5 flex items-center justify-between gap-3 shadow-lg site-mobile-bar"
+      style={{ backgroundColor: 'var(--surface)' }}
+    >
       <div className="flex flex-col">
         <span className="text-[10px] tracking-widest uppercase text-theme-accent font-medium">
           Villa Aurelia
@@ -32,3 +36,4 @@ export const MobileBookingBar: React.FC = () => {
     </aside>
   );
 };
+

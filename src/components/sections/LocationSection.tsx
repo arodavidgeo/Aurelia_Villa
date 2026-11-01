@@ -129,7 +129,7 @@ export const LocationSection: React.FC = () => {
                 className="w-full h-full object-cover min-h-[320px]"
               />
               {/* Map pin overlay banner */}
-              <div className="absolute top-4 left-4 bg-theme-surface/95 border border-theme-border px-3 py-1.5 shadow-md flex items-center gap-2">
+              <div className="absolute top-4 left-4 bg-theme-surface border border-theme-border px-3 py-1.5 shadow-md flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse" />
                 <span className="text-xs font-serif font-medium text-theme-text-primary">
                   Villa Aurelia
@@ -167,3 +167,4 @@ export const LocationSection: React.FC = () => {
     </section>
   );
 };
+

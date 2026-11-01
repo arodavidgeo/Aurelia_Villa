@@ -48,3 +48,4 @@ export const trackEnquirySubmitted = (preferredRoom: string, guests: number) => 
 export const trackWhatsAppClick = (source: string) => {
   trackEvent('whatsapp_click', { source });
 };
+

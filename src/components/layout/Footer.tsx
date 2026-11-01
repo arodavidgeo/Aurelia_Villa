@@ -10,7 +10,10 @@ export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-theme-footer-bg text-theme-footer-text pt-16 pb-12 overflow-hidden border-t border-theme-border/40 font-sans">
+    <footer
+      className="relative text-theme-footer-text pt-16 pb-12 overflow-hidden border-t border-theme-border/40 font-sans site-footer"
+      style={{ backgroundColor: 'var(--footer-bg)' }}
+    >
       {/* Decorative Botanical Flourishes on edges */}
       <BotanicalBranch position="top-left" opacity={0.25} />
       <BotanicalBranch position="top-right" opacity={0.25} />
@@ -181,3 +184,4 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+

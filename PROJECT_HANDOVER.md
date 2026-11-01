@@ -240,3 +240,4 @@ A comprehensive 66-point automated audit was performed:
 - **Theme Tokens:** Full semantic matching for all Light Mode and Dark Espresso Mode tokens verified against `Villa-Aurelia-DESIGN.md`.
 - **Responsive Layout:** Tested across viewports 360px, 390px, 430px, 768px, 1024px, 1366px, 1440px, and 1920px without horizontal overflow.
 - **Accessibility:** Semantic HTML elements (`<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`, `<aside>`), skip-to-content link, ARIA expanded attributes, visible focus rings, and Escape key listeners for all modals and lightboxes.
+

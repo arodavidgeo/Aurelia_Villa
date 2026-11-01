@@ -61,7 +61,8 @@ export const CookieConsent: React.FC = () => {
       {showBanner && !showManageModal && (
         <aside
           aria-label="Cookie consent banner"
-          className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-5 bg-theme-surface/95 backdrop-blur-none border-t border-theme-border shadow-2xl transition-all font-sans"
+          className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-5 border-t border-theme-border shadow-2xl transition-all font-sans site-cookie-banner"
+          style={{ backgroundColor: 'var(--surface)' }}
         >
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex items-start gap-3">
@@ -198,3 +199,4 @@ export const CookieConsent: React.FC = () => {
     </>
   );
 };
+

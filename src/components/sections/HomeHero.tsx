@@ -233,3 +233,4 @@ export const HomeHero: React.FC = () => {
     </section>
   );
 };
+

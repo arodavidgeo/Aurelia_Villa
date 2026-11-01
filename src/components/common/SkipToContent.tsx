@@ -10,3 +10,4 @@ export const SkipToContent: React.FC = () => {
     </a>
   );
 };
+

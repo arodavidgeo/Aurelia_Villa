@@ -61,6 +61,32 @@
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
+
+  /* Solid Opaque Surfaces (Zero Translucency) */
+  .site-header {
+    background-color: var(--page-bg) !important;
+    opacity: 1 !important;
+  }
+
+  .site-footer {
+    background-color: var(--footer-bg) !important;
+    opacity: 1 !important;
+  }
+
+  .site-cookie-banner {
+    background-color: var(--surface) !important;
+    opacity: 1 !important;
+  }
+
+  .site-mobile-drawer {
+    background-color: var(--page-bg) !important;
+    opacity: 1 !important;
+  }
+
+  .site-mobile-bar {
+    background-color: var(--surface) !important;
+    opacity: 1 !important;
+  }
 }
 
 /* Reduced motion preference */
@@ -89,3 +115,4 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
+

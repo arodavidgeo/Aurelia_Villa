@@ -76,3 +76,4 @@ export const Logo: React.FC<LogoProps> = ({ className = '', variant = 'header' }
     </a>
   );
 };
+

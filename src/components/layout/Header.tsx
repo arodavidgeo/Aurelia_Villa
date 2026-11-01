@@ -47,11 +47,12 @@ export const Header: React.FC = () => {
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-200 bg-theme-bg/95 border-b ${
+      className={`sticky top-0 z-40 w-full transition-all duration-200 border-b site-header ${
         isScrolled
-          ? 'border-theme-border shadow-sm py-2.5'
+          ? 'border-theme-border shadow-md py-2.5'
           : 'border-theme-border/60 py-3.5'
       }`}
+      style={{ backgroundColor: 'var(--page-bg)' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Logo */}
@@ -106,7 +107,8 @@ export const Header: React.FC = () => {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 top-[60px] z-50 bg-theme-bg/98 border-t border-theme-border md:hidden flex flex-col justify-between p-6 animate-fadeIn"
+          className="fixed inset-0 top-[60px] z-50 border-t border-theme-border md:hidden flex flex-col justify-between p-6 animate-fadeIn site-mobile-drawer"
+          style={{ backgroundColor: 'var(--page-bg)' }}
         >
           <div className="flex flex-col space-y-6 pt-4">
             {navLinks.map((link) => (
@@ -142,3 +144,4 @@ export const Header: React.FC = () => {
     </header>
   );
 };
+

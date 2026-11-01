@@ -144,7 +144,7 @@ export const GallerySection: React.FC = () => {
                 className={`px-3.5 py-1.5 text-xs font-sans tracking-wider transition-all duration-200 border ${
                   isActive
                     ? 'bg-olive text-ivory-canvas border-olive dark:bg-gold-pale dark:text-espresso-canvas dark:border-gold-pale font-medium'
-                    : 'bg-theme-surface/70 text-theme-text-secondary border-theme-border/70 hover:border-theme-accent hover:text-theme-text-primary'
+                    : 'bg-theme-surface text-theme-text-secondary border-theme-border hover:border-theme-accent hover:text-theme-text-primary'
                 }`}
               >
                 {cat.label}
@@ -177,7 +177,7 @@ export const GallerySection: React.FC = () => {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                <div className="p-2.5 bg-theme-surface/90 text-theme-accent rounded-full shadow-md">
+                <div className="p-2.5 bg-theme-surface text-theme-accent rounded-full shadow-md">
                   <ZoomIn className="w-5 h-5" />
                 </div>
               </div>
@@ -269,3 +269,4 @@ export const GallerySection: React.FC = () => {
     </section>
   );
 };
+

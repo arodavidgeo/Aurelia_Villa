@@ -134,7 +134,7 @@ export const RoomsSection: React.FC = () => {
                 className={`px-4 py-1.5 text-xs font-sans tracking-wider transition-all duration-200 border ${
                   isActive
                     ? 'bg-olive text-ivory-canvas border-olive dark:bg-gold-pale dark:text-espresso-canvas dark:border-gold-pale font-medium'
-                    : 'bg-theme-surface/70 text-theme-text-secondary border-theme-border/70 hover:border-theme-accent hover:text-theme-text-primary'
+                    : 'bg-theme-surface text-theme-text-secondary border-theme-border hover:border-theme-accent hover:text-theme-text-primary'
                 }`}
               >
                 {filter.label}
@@ -317,3 +317,4 @@ export const RoomsSection: React.FC = () => {
     </section>
   );
 };
+
