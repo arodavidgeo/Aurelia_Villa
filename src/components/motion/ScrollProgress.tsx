@@ -39,3 +39,4 @@ export const ScrollProgress: React.FC = () => {
 
   return <div ref={lineRef} className="scroll-progress-line" aria-hidden="true" />;
 };
+

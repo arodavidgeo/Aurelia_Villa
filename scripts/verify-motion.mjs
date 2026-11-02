@@ -145,3 +145,4 @@ if (errors.length > 0) {
   console.log('✓ ALL MOTION SYSTEM RULES PASSED: Clean cleanups, zero glassmorphism, transform/opacity only, WCAG AA compliant.');
   process.exit(0);
 }
+

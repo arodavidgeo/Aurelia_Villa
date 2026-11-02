@@ -350,3 +350,4 @@ export const VillaExplorerSection: React.FC = () => {
     </section>
   );
 };
+
