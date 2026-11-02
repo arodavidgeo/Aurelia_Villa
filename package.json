@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "verify:villa": "node scripts/verify-villa.mjs",
-    "test": "node scripts/test-suite.mjs",
+    "test": "node scripts/verify-villa.mjs",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
