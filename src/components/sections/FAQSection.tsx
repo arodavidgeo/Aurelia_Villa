@@ -56,20 +56,16 @@ export const FAQSection: React.FC = () => {
                   />
                 </button>
 
-                <div
-                  id={contentId}
-                  role="region"
-                  aria-labelledby={headerId}
-                  className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
-                    isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-                  }`}
-                >
-                  <div className="overflow-hidden">
-                    <div className="px-5 pb-4 pt-1 text-xs sm:text-sm text-theme-text-secondary leading-relaxed border-t border-theme-border/40">
-                      {item.answer}
-                    </div>
+                {isOpen && (
+                  <div
+                    id={contentId}
+                    role="region"
+                    aria-labelledby={headerId}
+                    className="px-5 pb-4 pt-1 text-xs sm:text-sm text-theme-text-secondary leading-relaxed border-t border-theme-border/40"
+                  >
+                    {item.answer}
                   </div>
-                </div>
+                )}
               </div>
             );
           })}

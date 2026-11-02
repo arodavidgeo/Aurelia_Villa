@@ -8,7 +8,7 @@ export const BookingPoliciesSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Pricing Feature Card */}
-          <div data-reveal className="lg:col-span-6 bg-theme-surface border border-theme-border p-6 sm:p-8 shadow-sm">
+          <div className="lg:col-span-6 bg-theme-surface border border-theme-border p-6 sm:p-8 shadow-sm">
             <span className="text-[11px] uppercase tracking-widest text-theme-accent font-medium block mb-1">
               {PROPERTY.pricingCardTitle}
             </span>
@@ -22,10 +22,7 @@ export const BookingPoliciesSection: React.FC = () => {
               </span>
             </div>
 
-            {/* Fine Gold Rule Drawing Across */}
-            <div className="w-full h-[1px] bg-theme-border/60 mb-6 overflow-hidden">
-              <div className="gold-rule-draw h-full bg-theme-accent" />
-            </div>
+            <div className="w-full h-[1px] bg-theme-border/60 mb-6" />
 
             <h4 className="font-serif text-base text-theme-text-primary font-medium mb-3">
               Included In Your Exclusive Stay:

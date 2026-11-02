@@ -23,18 +23,6 @@
     --input-bg: #FFFDF8;
     --focus-ring: rgba(174, 137, 80, 0.45);
     --botanical-stroke: #59614B;
-
-    /* Cinematic Motion Tokens (Section 3) */
-    --duration-micro: 150ms;
-    --duration-button: 200ms;
-    --duration-nav: 220ms;
-    --duration-image: 400ms;
-    --duration-reveal: 600ms;
-    --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
-    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-    --reveal-distance: 24px;
-    --stagger-step: 70ms;
-    --parallax-max: 40px;
   }
 
   [data-theme="dark"] {
@@ -105,90 +93,10 @@
     background-color: var(--surface) !important;
     opacity: 1 !important;
   }
-
-  /* Progressive Enhancement: Hide-then-reveal ONLY under html.js */
-  html.js [data-reveal] {
-    opacity: 0;
-    transform: translateY(var(--reveal-distance));
-    transition: opacity var(--duration-reveal) var(--ease-standard),
-                transform var(--duration-reveal) var(--ease-standard);
-  }
-
-  html.js [data-reveal="clip-wipe"] {
-    opacity: 0;
-    clip-path: inset(100% 0 0 0);
-    transition: opacity var(--duration-reveal) var(--ease-standard),
-                clip-path var(--duration-reveal) var(--ease-standard);
-  }
-
-  html.js [data-reveal].is-revealed {
-    opacity: 1;
-    transform: translateY(0);
-    clip-path: inset(0 0 0 0);
-  }
-
-  /* Scroll Progress Line */
-  .scroll-progress-line {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background-color: var(--accent);
-    transform-origin: 0 50%;
-    transform: scaleX(0);
-    z-index: 60;
-    pointer-events: none;
-  }
-
-  /* Cinematic Hero Animations */
-  @keyframes slowHeroZoom {
-    0% { transform: scale(1.00); }
-    100% { transform: scale(1.05); }
-  }
-
-  .hero-photo-zoom {
-    animation: slowHeroZoom 9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-
-  /* Masked Headline Reveals (Section 4) */
-  html.js .hero-line-inner {
-    display: block;
-    transform: translateY(100%);
-    animation: heroLineSlide 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-  .hero-line-1 { animation-delay: 80ms; }
-  .hero-line-2 { animation-delay: 200ms; }
-  .hero-line-3 { animation-delay: 320ms; }
-
-  @keyframes heroLineSlide {
-    to { transform: translateY(0); }
-  }
-
-  /* Scroll Nudge Indicator (Nudges once, then still) */
-  @keyframes scrollNudgeOnce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
-  }
-  .scroll-nudge-indicator {
-    animation: scrollNudgeOnce 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.5s 1 normal forwards;
-  }
-  /* Fine Gold Rule Drawing Across (Section 10) */
-  html.js .gold-rule-draw {
-    width: 0%;
-    transition: width 700ms var(--ease-standard) 150ms;
-  }
-  html.js .is-revealed .gold-rule-draw,
-  html.js .gold-rule-draw.is-revealed {
-    width: 100%;
-  }
 }
 
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto !important;
-  }
   *,
   ::before,
   ::after {
@@ -196,25 +104,6 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-  html.js [data-reveal],
-  html.js [data-reveal="clip-wipe"] {
-    opacity: 1 !important;
-    transform: none !important;
-    clip-path: none !important;
-    transition: none !important;
-  }
-  .scroll-progress-line,
-  .scroll-nudge-indicator {
-    display: none !important;
-  }
-  .hero-photo-zoom,
-  html.js .hero-line-inner,
-  html.js .gold-rule-draw {
-    animation: none !important;
-    transform: none !important;
-    width: 100% !important;
-    transition: none !important;
   }
 }
 
