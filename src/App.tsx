@@ -3,7 +3,6 @@ import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HomeHero } from './components/sections/HomeHero';
 import { VillaExplorerSection } from './components/sections/VillaExplorerSection';
-import { TheVillaSection } from './components/sections/TheVillaSection';
 import { AmenitiesSection } from './components/sections/AmenitiesSection';
 import { TerraceSection } from './components/sections/TerraceSection';
 import { GallerySection } from './components/sections/GallerySection';
@@ -65,10 +64,7 @@ export const App: React.FC = () => {
         {/* Signature Interactive Section: Explore Villa Aurelia */}
         <VillaExplorerSection />
 
-        {/* Screen 2: The Villa Walkthrough */}
-        <TheVillaSection />
-
-        {/* Screen 3: Verified Amenities & Facilities */}
+        {/* Screen 2: Verified Amenities & Facilities */}
         <AmenitiesSection />
 
         {/* Screen 4: Terrace & Celebrations */}

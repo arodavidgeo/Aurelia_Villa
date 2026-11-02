@@ -61,7 +61,6 @@ server.listen(PORT, async () => {
     { name: 'mobile-dark', width: 375, height: 812, url: `http://localhost:${PORT}/?theme=dark` },
     // Specific sections
     { name: 'explore-section-desktop', width: 1440, height: 1100, url: `http://localhost:${PORT}/#explore` },
-    { name: 'villa-section-desktop', width: 1440, height: 1100, url: `http://localhost:${PORT}/#the-villa` },
     { name: 'terrace-section-desktop', width: 1440, height: 1100, url: `http://localhost:${PORT}/#terrace` },
     { name: 'gallery-section-desktop', width: 1440, height: 1100, url: `http://localhost:${PORT}/#gallery` },
     { name: 'location-section-desktop', width: 1440, height: 1100, url: `http://localhost:${PORT}/#location` },

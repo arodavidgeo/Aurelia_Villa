@@ -252,6 +252,7 @@ export const GallerySection: React.FC = () => {
                       alt={photo.alt}
                       loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none"
+                      style={{ objectPosition: photo.focalPoint }}
                       width={photo.width}
                       height={photo.height}
                     />
@@ -293,35 +294,30 @@ export const GallerySection: React.FC = () => {
           </div>
         )}
 
-        {/* View Mode 2: Editorial Asymmetric Grid */}
+        {/* View Mode 2: Editorial Grid (Regular Fit) */}
         {viewMode === 'grid' && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {filteredPhotos.map((photo: ManifestPhoto, index: number) => {
-              const isFeature = index === 0;
-              return (
-                <div
-                  key={photo.id}
-                  onClick={(e) => openLightbox(index, e)}
-                  data-cursor="view"
-                  className={`group relative cursor-pointer overflow-hidden border border-theme-border bg-theme-surface shadow-sm ${
-                    isFeature ? 'sm:col-span-2 aspect-[16/10] sm:aspect-[16/9]' : 'aspect-[4/3]'
-                  }`}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`View photo: ${photo.title} in lightbox`}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      openLightbox(index, e);
-                    }
-                  }}
-                >
-                  <picture>
-                    <source
-                      type="image/webp"
-                      srcSet={photo.srcSet}
-                      sizes={isFeature ? '(max-width: 768px) 100vw, 66vw' : '(max-width: 768px) 100vw, 33vw'}
-                    />
+            {filteredPhotos.map((photo: ManifestPhoto, index: number) => (
+              <div
+                key={photo.id}
+                onClick={(e) => openLightbox(index, e)}
+                className="group relative cursor-pointer overflow-hidden border border-theme-border bg-theme-surface aspect-[4/3] shadow-sm"
+                role="button"
+                tabIndex={0}
+                aria-label={`View photo: ${photo.title} in lightbox`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox(index, e);
+                  }
+                }}
+              >
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcSet={photo.srcSet}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                     <img
                       src={photo.srcJpg}
                       alt={photo.alt}
@@ -347,8 +343,7 @@ export const GallerySection: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              );
-            })}
+            ))}
           </div>
         )}
       </div>

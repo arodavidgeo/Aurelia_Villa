@@ -87,7 +87,7 @@ export const HomeHero: React.FC = () => {
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-4">
               <a
-                href="#the-villa"
+                href="#explore"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-theme-accent hover:bg-theme-accent-strong text-theme-bg dark:text-theme-surface-deep text-xs font-sans tracking-[0.16em] uppercase transition-colors shadow-sm"
               >
                 <span>Explore the Villa</span>

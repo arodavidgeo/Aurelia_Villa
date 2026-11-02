@@ -286,6 +286,7 @@ export const VillaExplorerSection: React.FC = () => {
                     className={`w-full h-full object-cover transition-transform duration-500 ${
                       prefersReduced ? '' : 'hover:scale-105'
                     }`}
+                    style={{ objectPosition: '50% 55%' }}
                   />
                 </picture>
               ) : (
