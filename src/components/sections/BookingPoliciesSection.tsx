@@ -4,9 +4,9 @@ import { PROPERTY } from '../../content/property';
 
 export const BookingPoliciesSection: React.FC = () => {
   return (
-    <section id="policies" className="relative py-16 sm:py-20 border-t border-theme-border/40 font-sans">
+    <section id="policies" className="relative py-10 sm:py-14 border-t border-theme-border/40 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
           {/* Left Pricing Feature Card */}
           <div className="lg:col-span-6 bg-theme-surface border border-theme-border p-6 sm:p-8 shadow-sm">
             <span className="text-[11px] uppercase tracking-widest text-theme-accent font-medium block mb-1">

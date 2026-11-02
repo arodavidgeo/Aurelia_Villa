@@ -11,11 +11,11 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="relative py-16 sm:py-20 border-t border-theme-border/40 overflow-hidden font-sans">
+    <section id="faq" className="relative py-10 sm:py-14 border-t border-theme-border/40 overflow-hidden font-sans">
       <BotanicalBranch position="top-right" opacity={0.25} />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-left mb-10">
+        <div className="text-left mb-6">
           <span className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-theme-accent font-medium mb-2 block">
             QUESTIONS & ANSWERS
           </span>

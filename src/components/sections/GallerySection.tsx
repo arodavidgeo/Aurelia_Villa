@@ -147,11 +147,11 @@ export const GallerySection: React.FC = () => {
   };
 
   return (
-    <section id="gallery" className="relative py-16 sm:py-24 border-t border-theme-border/40 overflow-hidden font-sans">
+    <section id="gallery" className="relative py-10 sm:py-14 border-t border-theme-border/40 overflow-hidden font-sans">
       <BotanicalBranch position="top-right" opacity={0.25} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-5 gap-3">
           <div className="text-left max-w-2xl">
             <span className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-theme-accent font-medium mb-2 block">
               GALLERY & INTERIORS
@@ -201,7 +201,7 @@ export const GallerySection: React.FC = () => {
         </div>
 
         {/* Category Filter Buttons */}
-        <div className="flex flex-wrap items-center gap-2 mb-8">
+        <div className="flex flex-wrap items-center gap-2 mb-5">
           {availableCategories.map((cat) => {
             const isActive = activeFilter === cat;
             return (

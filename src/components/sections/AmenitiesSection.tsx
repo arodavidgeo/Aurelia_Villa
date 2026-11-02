@@ -19,11 +19,11 @@ export const AmenitiesSection: React.FC = () => {
   ];
 
   return (
-    <section id="amenities" className="relative py-16 sm:py-20 border-t border-theme-border/40 overflow-hidden font-sans">
+    <section id="amenities" className="relative py-10 sm:py-14 border-t border-theme-border/40 overflow-hidden font-sans">
       <BotanicalBranch position="top-right" opacity={0.25} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-left mb-12 max-w-2xl">
+        <div className="text-left mb-6 max-w-2xl">
           <span className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-theme-accent font-medium mb-2 block">
             VERIFIED AMENITIES & FACILITIES
           </span>
@@ -38,7 +38,7 @@ export const AmenitiesSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {/* Group 1: Accommodation */}
           <div className="bg-theme-surface border border-theme-border p-6 sm:p-7 shadow-sm">
-            <h3 className="font-serif text-xl sm:text-2xl text-theme-text-primary font-normal border-b border-theme-border/60 pb-3 mb-6">
+            <h3 className="font-serif text-xl sm:text-2xl text-theme-text-primary font-normal border-b border-theme-border/60 pb-2 mb-4">
               Accommodation Spaces
             </h3>
             <div className="space-y-4">

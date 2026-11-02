@@ -47,7 +47,7 @@ export const HomeHero: React.FC = () => {
   const highlightIcons = [Home, Wind, PartyPopper, Car];
 
   return (
-    <section id="home" className="relative pt-6 sm:pt-10 pb-16 overflow-hidden">
+    <section id="home" className="relative pt-4 sm:pt-6 pb-10 sm:pb-12 overflow-hidden">
       <BotanicalBranch position="top-left" opacity={0.25} className="-translate-x-6" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,12 +65,12 @@ export const HomeHero: React.FC = () => {
               <span className="text-theme-accent italic">Your Villa.</span>
             </h1>
 
-            <p className="text-sm sm:text-base font-sans text-theme-text-secondary leading-relaxed max-w-md mb-6">
+            <p className="text-sm sm:text-base font-sans text-theme-text-secondary leading-relaxed max-w-md mb-4">
               {PROPERTY.heroSupport}
             </p>
 
             {/* Price Badge Block */}
-            <div className="mb-7 p-3.5 bg-theme-surface border border-theme-border/80 w-fit">
+            <div className="mb-5 p-3.5 bg-theme-surface border border-theme-border/80 w-fit">
               <span className="text-xs uppercase tracking-wider text-theme-text-secondary block font-sans">
                 Exclusive Package
               </span>
@@ -128,7 +128,7 @@ export const HomeHero: React.FC = () => {
         </div>
 
         {/* Grounded Reservation Enquiry Strip */}
-        <div className="relative z-20 mt-10 lg:mt-14 max-w-5xl mx-auto">
+        <div className="relative z-20 mt-6 lg:mt-8 max-w-5xl mx-auto">
           <form
             onSubmit={handleEnquireStripSubmit}
             className="bg-theme-surface border border-theme-border p-4 sm:p-6 shadow-sm font-sans"
@@ -228,7 +228,7 @@ export const HomeHero: React.FC = () => {
         </div>
 
         {/* 4 Highlights with Line Icons */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-14 pt-8 border-t border-theme-border/40 font-sans">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 pt-6 border-t border-theme-border/40 font-sans">
           {PROPERTY.highlights.map((item, idx) => {
             const Icon = highlightIcons[idx] || Home;
             return (

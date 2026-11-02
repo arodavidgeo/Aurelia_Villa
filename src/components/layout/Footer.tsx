@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer
-      className="relative text-theme-footer-text pt-16 pb-12 overflow-hidden border-t border-theme-border/40 font-sans site-footer"
+      className="relative text-theme-footer-text pt-10 pb-8 overflow-hidden border-t border-theme-border/40 font-sans site-footer"
       style={{ backgroundColor: 'var(--footer-bg)' }}
     >
       <BotanicalBranch position="top-left" opacity={0.2} />
@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         {/* Brand Centerpiece */}
-        <div className="flex flex-col items-center text-center mb-12">
+        <div className="flex flex-col items-center text-center mb-6">
           <Logo variant="footer" className="mb-4 text-theme-footer-text" />
 
           {/* Quotation Statement */}

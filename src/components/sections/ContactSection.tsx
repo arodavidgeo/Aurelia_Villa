@@ -101,7 +101,7 @@ Message: ${message || 'Please let me know availability.'}`;
   };
 
   return (
-    <section id="contact" className="relative py-16 sm:py-20 border-t border-theme-border/40 overflow-hidden font-sans">
+    <section id="contact" className="relative py-10 sm:py-14 border-t border-theme-border/40 overflow-hidden font-sans">
       <BotanicalBranch position="top-right" opacity={0.25} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -109,7 +109,7 @@ Message: ${message || 'Please let me know availability.'}`;
           CONTACT & BOOKING ENQUIRY
         </span>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           {/* Left Column: Direct Contact Details */}
           <div className="lg:col-span-5 flex flex-col justify-between">
             <div>
@@ -121,7 +121,7 @@ Message: ${message || 'Please let me know availability.'}`;
               </p>
 
               {/* Package Banner */}
-              <div className="mb-8 p-4 bg-theme-surface border border-theme-border">
+              <div className="mb-5 p-4 bg-theme-surface border border-theme-border">
                 <span className="text-[10px] uppercase tracking-widest text-theme-accent font-medium block">
                   Exclusive Stay Rate
                 </span>
@@ -134,7 +134,7 @@ Message: ${message || 'Please let me know availability.'}`;
               </div>
 
               {/* Contact Rows */}
-              <div className="space-y-4 mb-8">
+              <div className="space-y-3 mb-5">
                 <div className="flex items-start gap-3.5">
                   <div className="p-2 bg-theme-surface border border-theme-border text-theme-accent shrink-0">
                     <Phone className="w-4 h-4" />

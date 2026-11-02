@@ -37,11 +37,11 @@ export const TerraceSection: React.FC = () => {
   ];
 
   return (
-    <section id="terrace" className="relative py-16 sm:py-20 border-t border-theme-border/40 overflow-hidden font-sans">
+    <section id="terrace" className="relative py-10 sm:py-14 border-t border-theme-border/40 overflow-hidden font-sans">
       <BotanicalBranch position="top-right" opacity={0.25} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
           {/* Left Text */}
           <div className="lg:col-span-6 flex flex-col justify-center">
             <span className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-theme-accent font-medium mb-2 block">

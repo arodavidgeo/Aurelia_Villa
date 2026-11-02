@@ -214,12 +214,12 @@ export const VillaExplorerSection: React.FC = () => {
   }, [activeIndex]);
 
   return (
-    <section id="explore" className="relative py-16 sm:py-24 border-t border-theme-border/40 overflow-hidden font-sans">
+    <section id="explore" className="relative py-10 sm:py-14 border-t border-theme-border/40 overflow-hidden font-sans">
       <BotanicalBranch position="top-right" opacity={0.25} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Heading */}
-        <div className="text-left mb-8 max-w-2xl">
+        <div className="text-left mb-5 max-w-2xl">
           <span className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-theme-accent font-medium mb-2 block">
             INTERACTIVE EXPLORER
           </span>
@@ -236,7 +236,7 @@ export const VillaExplorerSection: React.FC = () => {
           ref={tabListRef}
           role="tablist"
           aria-label="Villa Aurelia Spaces"
-          className="flex items-center gap-2 overflow-x-auto pb-3 mb-8 no-scrollbar border-b border-theme-border/50 scroll-smooth"
+          className="flex items-center gap-2 overflow-x-auto pb-2 mb-5 no-scrollbar border-b border-theme-border/50 scroll-smooth"
         >
           {areas.map((area, idx) => {
             const isSelected = idx === activeIndex;
