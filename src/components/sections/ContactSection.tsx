@@ -90,14 +90,42 @@ export const ContactSection: React.FC = () => {
 
   // Build prefilled WhatsApp message from current form inputs
   const buildWhatsAppFromForm = () => {
-    const text = `Hello Villa Aurelia, I would like to enquire about staying at the villa in Tirunelveli (₹7,500 / 24 Hours).
-Name: ${fullName || 'Guest'}
-Dates: ${checkInDate || 'To be decided'} to ${checkOutDate || 'To be decided'}
-Guests: ${guests}
-Purpose: ${purposeOfVisit}
-Message: ${message || 'Please let me know availability.'}`;
+    const lines = [
+      '🏡 *NEW BOOKING ENQUIRY — VILLA AURELIA*',
+      '━━━━━━━━━━━━━━━━━━━━━━',
+      '👤 *Guest Details:*',
+      `• *Name:* ${fullName || 'Guest'}`,
+      `• *Phone:* ${phone || 'Not provided'}`,
+    ];
 
-    return `https://wa.me/${PROPERTY.phoneRaw}?text=${encodeURIComponent(text)}`;
+    if (email) {
+      lines.push(`• *Email:* ${email}`);
+    }
+
+    lines.push(
+      '',
+      '📅 *Stay Requirements:*',
+      `• *Check-in:* ${checkInDate || 'Flexible / To be decided'}`,
+      `• *Check-out:* ${checkOutDate || 'Flexible / To be decided'}`,
+      `• *Total Guests:* ${guests} Guests`,
+      `• *Purpose of Visit:* ${purposeOfVisit || 'Family Stay'}`,
+      '',
+      '🏠 *Accommodation Package:*',
+      `• Entire Private Villa (${PROPERTY.priceDisplay} / 24 Hours)`,
+      '• Inclusions: 2 AC Bedrooms, Living Hall, Kitchen, 2 Toilets, Terrace, Gated Parking'
+    );
+
+    if (message && message.trim()) {
+      lines.push('', `💬 *Special Requests / Message:*`, `"${message.trim()}"`);
+    }
+
+    lines.push(
+      '━━━━━━━━━━━━━━━━━━━━━━',
+      'Hello Villa Aurelia, please confirm availability for the above dates and requirements.'
+    );
+
+    const messageText = lines.join('\n');
+    return `https://wa.me/${PROPERTY.whatsappNumber}?text=${encodeURIComponent(messageText)}`;
   };
 
   return (

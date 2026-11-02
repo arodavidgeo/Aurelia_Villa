@@ -1,16 +1,36 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import { PROPERTY } from '../../content/property';
+import { useBooking } from '../../context/BookingContext';
 import { trackWhatsAppClick } from '../../services/analytics';
 
 export const FloatingWhatsApp: React.FC = () => {
+  const { checkInDate, checkOutDate, guests, purposeOfVisit } = useBooking();
+
+  const getWhatsAppUrl = () => {
+    if (checkInDate || checkOutDate) {
+      const lines = [
+        '🏡 *VILLA AURELIA ENQUIRY*',
+        '━━━━━━━━━━━━━━━━━━━━━━',
+        `📅 *Dates:* ${checkInDate || 'Flexible'} to ${checkOutDate || 'Flexible'}`,
+        `👥 *Guests:* ${guests} Guests`,
+        `🎯 *Purpose:* ${purposeOfVisit || 'Family Stay'}`,
+        `🏠 *Package:* Entire Private Villa (${PROPERTY.priceDisplay} / 24 Hours)`,
+        '━━━━━━━━━━━━━━━━━━━━━━',
+        'Hello Villa Aurelia, I would like to check availability for the above dates and requirements.'
+      ];
+      return `https://wa.me/${PROPERTY.whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
+    }
+    return PROPERTY.whatsappUrl;
+  };
+
   const handleClick = () => {
     trackWhatsAppClick('floating_button');
   };
 
   return (
     <a
-      href={PROPERTY.whatsappUrl}
+      href={getWhatsAppUrl()}
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}

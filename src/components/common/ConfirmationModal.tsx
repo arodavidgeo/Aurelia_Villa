@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { CheckCircle2, X, Calendar, User, Home, Phone } from 'lucide-react';
+import { CheckCircle2, X, Calendar, User, Home, Phone, MessageCircle } from 'lucide-react';
 import { useBooking } from '../../context/BookingContext';
 import { PROPERTY } from '../../content/property';
 
@@ -27,6 +27,47 @@ export const ConfirmationModal: React.FC = () => {
   if (!confirmationModalData) return null;
 
   const { referenceId, enquiry } = confirmationModalData;
+
+  const buildWhatsAppConfirmationUrl = () => {
+    const lines = [
+      '🏡 *NEW BOOKING ENQUIRY — VILLA AURELIA*',
+      '━━━━━━━━━━━━━━━━━━━━━━',
+      `📋 *Reference ID:* ${referenceId}`,
+      '',
+      '👤 *Guest Details:*',
+      `• *Name:* ${enquiry.fullName || 'Guest'}`,
+      `• *Phone:* ${enquiry.phone || 'Not provided'}`,
+    ];
+
+    if (enquiry.email) {
+      lines.push(`• *Email:* ${enquiry.email}`);
+    }
+
+    lines.push(
+      '',
+      '📅 *Stay Requirements:*',
+      `• *Check-in:* ${enquiry.checkInDate || 'To be decided'}`,
+      `• *Check-out:* ${enquiry.checkOutDate || 'To be decided'}`,
+      `• *Guests:* ${enquiry.guests || 4} Guests`,
+      `• *Purpose of Visit:* ${enquiry.purposeOfVisit || 'Family Stay'}`,
+      '',
+      '🏠 *Accommodation Package:*',
+      `• Entire Private Villa (${PROPERTY.priceDisplay} / 24 Hours)`,
+      '• Inclusions: 2 AC Bedrooms, Living Hall, Kitchen, 2 Toilets, Terrace, Gated Parking'
+    );
+
+    if (enquiry.message && enquiry.message.trim()) {
+      lines.push('', `💬 *Special Requests / Message:*`, `"${enquiry.message.trim()}"`);
+    }
+
+    lines.push(
+      '━━━━━━━━━━━━━━━━━━━━━━',
+      'I have submitted this enquiry on the website. Kindly confirm availability and block the dates.'
+    );
+
+    const messageText = lines.join('\n');
+    return `https://wa.me/${PROPERTY.whatsappNumber}?text=${encodeURIComponent(messageText)}`;
+  };
 
   return (
     <div
@@ -115,12 +156,13 @@ export const ConfirmationModal: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <a
-            href={PROPERTY.whatsappUrl}
+            href={buildWhatsAppConfirmationUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:flex-1 py-2.5 text-center border border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-theme-bg text-xs font-medium tracking-wider uppercase transition-colors"
+            className="w-full sm:flex-1 py-2.5 text-center border border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-theme-bg dark:hover:text-theme-surface-deep text-xs font-medium tracking-wider uppercase transition-colors flex items-center justify-center gap-2"
           >
-            Chat on WhatsApp
+            <MessageCircle className="w-4 h-4" />
+            <span>Chat on WhatsApp</span>
           </a>
 
           <button
