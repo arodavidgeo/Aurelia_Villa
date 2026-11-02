@@ -113,7 +113,7 @@ export const submitEnquiry = async (
     return {
       success: true,
       referenceId: `VA-${Date.now().toString(36).toUpperCase()}`,
-      message: 'Thank you. Your enquiry has been received. The property will contact you to confirm availability.',
+      message: 'Thank you for your enquiry. Please send your details to the owner on WhatsApp to confirm availability.',
     };
   }
 
@@ -170,7 +170,7 @@ export const submitEnquiry = async (
   return {
     success: true,
     referenceId,
-    message: 'Thank you. Your enquiry has been received. The property will contact you to confirm availability.',
+    message: 'Thank you for your enquiry. Please send your details to the owner on WhatsApp to confirm availability.',
   };
 };
 

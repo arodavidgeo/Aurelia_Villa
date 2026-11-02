@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, MessageCircle, Mail, MapPin, Send, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Phone, MessageCircle, Mail, MapPin, Send, Loader2, AlertCircle } from 'lucide-react';
 import { BotanicalBranch } from '../common/BotanicalBranch';
 import { useBooking } from '../../context/BookingContext';
 import { PROPERTY } from '../../content/property';
@@ -8,6 +8,10 @@ import {
   validateEnquiryForm,
   ValidationErrors,
 } from '../../services/enquiryService';
+import { EnquiryThankYouScreen } from './EnquiryThankYouScreen';
+import { EnquiryForWhatsApp } from '../../utils/whatsappMessage';
+
+const SESSION_STORAGE_KEY = 'va_pending_whatsapp_enquiry';
 
 export const ContactSection: React.FC = () => {
   const {
@@ -19,7 +23,6 @@ export const ContactSection: React.FC = () => {
     setGuests,
     purposeOfVisit,
     setPurposeOfVisit,
-    setConfirmationModalData,
   } = useBooking();
 
   const [fullName, setFullName] = useState<string>('');
@@ -31,22 +34,31 @@ export const ContactSection: React.FC = () => {
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [serverError, setServerError] = useState<string>('');
-  const [submittedSuccess, setSubmittedSuccess] = useState<boolean>(false);
+
+  // Persist / restore submitted enquiry across reloads
+  const [submittedEnquiry, setSubmittedEnquiry] = useState<EnquiryForWhatsApp | null>(() => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const stored = sessionStorage.getItem(SESSION_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  });
 
   const todayStr = new Date().toISOString().split('T')[0];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setServerError('');
-    setSubmittedSuccess(false);
 
     const currentData = {
       fullName,
       phone,
-      email,
+      email: email || '',
       checkInDate,
       checkOutDate,
-      guests,
+      guests: Number(guests) || 1,
       purposeOfVisit,
       message,
     };
@@ -60,72 +72,41 @@ export const ContactSection: React.FC = () => {
     setErrors({});
     setIsSubmitting(true);
 
+    // Save to sessionStorage immediately so reload persists the thank-you screen
     try {
-      const res = await submitEnquiry(currentData, honeypot);
-      if (res.success) {
-        setSubmittedSuccess(true);
-        setConfirmationModalData({
-          referenceId: res.referenceId,
-          enquiry: currentData,
-        });
+      sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(currentData));
+    } catch (err) {
+      console.warn('sessionStorage write error:', err);
+    }
 
-        // Reset inputs
-        setFullName('');
-        setPhone('');
-        setEmail('');
-        setMessage('');
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setServerError(err.message);
-      } else {
-        setServerError(
-          'An issue occurred while sending your enquiry. Please retry or contact us directly via Phone or WhatsApp.'
-        );
-      }
+    // Optional background record persistence per Section 3 (never blocks WhatsApp step)
+    try {
+      await submitEnquiry(currentData, honeypot);
+    } catch (err) {
+      console.warn('Database record optional fallback:', err);
     } finally {
       setIsSubmitting(false);
+      // Switch view to thank-you and WhatsApp handoff screen
+      setSubmittedEnquiry(currentData);
     }
   };
 
-  // Build prefilled WhatsApp message from current form inputs
-  const buildWhatsAppFromForm = () => {
-    const lines = [
-      '🏡 *NEW BOOKING ENQUIRY — VILLA AURELIA*',
-      '━━━━━━━━━━━━━━━━━━━━━━',
-      '👤 *Guest Details:*',
-      `• *Name:* ${fullName || 'Guest'}`,
-      `• *Phone:* ${phone || 'Not provided'}`,
-    ];
+  const handleEditDetails = () => {
+    setSubmittedEnquiry(null);
+    try {
+      sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    } catch {}
+  };
 
-    if (email) {
-      lines.push(`• *Email:* ${email}`);
-    }
-
-    lines.push(
-      '',
-      '📅 *Stay Requirements:*',
-      `• *Check-in:* ${checkInDate || 'Flexible / To be decided'}`,
-      `• *Check-out:* ${checkOutDate || 'Flexible / To be decided'}`,
-      `• *Total Guests:* ${guests} Guests`,
-      `• *Purpose of Visit:* ${purposeOfVisit || 'Family Stay'}`,
-      '',
-      '🏠 *Accommodation Package:*',
-      `• Entire Private Villa (${PROPERTY.priceDisplay} / 24 Hours)`,
-      '• Inclusions: 2 AC Bedrooms, Living Hall, Kitchen, 2 Toilets, Terrace, Gated Parking'
-    );
-
-    if (message && message.trim()) {
-      lines.push('', `💬 *Special Requests / Message:*`, `"${message.trim()}"`);
-    }
-
-    lines.push(
-      '━━━━━━━━━━━━━━━━━━━━━━',
-      'Hello Villa Aurelia, please confirm availability for the above dates and requirements.'
-    );
-
-    const messageText = lines.join('\n');
-    return `https://wa.me/${PROPERTY.whatsappNumber}?text=${encodeURIComponent(messageText)}`;
+  const handleStartNewEnquiry = () => {
+    setSubmittedEnquiry(null);
+    setFullName('');
+    setPhone('');
+    setEmail('');
+    setMessage('');
+    try {
+      sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    } catch {}
   };
 
   return (
@@ -145,7 +126,7 @@ export const ContactSection: React.FC = () => {
                 Send an Availability Enquiry
               </h2>
               <p className="text-xs sm:text-sm text-theme-text-secondary leading-relaxed mb-6 max-w-md">
-                Reach out to reserve the entire private villa. Our reservations manager directly verifies room availability and assists with your visit.
+                Reach out to reserve the entire private villa. Fill in your dates and requirements, then send them to the owner on WhatsApp to confirm availability.
               </p>
 
               {/* Package Banner */}
@@ -157,7 +138,7 @@ export const ContactSection: React.FC = () => {
                   {PROPERTY.priceDisplay} / 24 Hours
                 </span>
                 <p className="text-xs text-theme-text-secondary mt-1">
-                  Villa Aurelia is offered as an entire private house. Booking enquiries are subject to availability and confirmation by the property.
+                  Villa Aurelia is offered as an entire private house. Booking enquiries are subject to availability and confirmation by the property. After you submit, you will send your details to the owner on WhatsApp.
                 </p>
               </div>
 
@@ -173,7 +154,7 @@ export const ContactSection: React.FC = () => {
                     </h3>
                     <a
                       href={PROPERTY.phoneTel}
-                      className="text-xs text-theme-text-secondary hover:text-theme-accent transition-colors block"
+                      className="text-xs text-theme-text-secondary hover:text-theme-accent font-mono transition-colors block"
                     >
                       {PROPERTY.phoneDisplay}
                     </a>
@@ -194,7 +175,7 @@ export const ContactSection: React.FC = () => {
                       rel="noopener noreferrer"
                       className="text-xs text-theme-text-secondary hover:text-theme-accent transition-colors block underline underline-offset-2"
                     >
-                      Chat with reservations concierge
+                      Chat with villa owner
                     </a>
                   </div>
                 </div>
@@ -208,10 +189,10 @@ export const ContactSection: React.FC = () => {
                       Email
                     </h3>
                     <a
-                      href="mailto:info@villaaurelia.com"
+                      href="mailto:contact@villaaurelia.com"
                       className="text-xs text-theme-text-secondary hover:text-theme-accent transition-colors block"
                     >
-                      info@villaaurelia.com
+                      contact@villaaurelia.com
                     </a>
                   </div>
                 </div>
@@ -222,7 +203,7 @@ export const ContactSection: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-xs uppercase tracking-wider text-theme-text-primary font-medium">
-                      Villa Address
+                      Location
                     </h3>
                     <p className="text-xs text-theme-text-secondary leading-relaxed">
                       {PROPERTY.address}
@@ -231,298 +212,286 @@ export const ContactSection: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* Direct Directions Link */}
+            <div className="pt-2">
+              <a
+                href={PROPERTY.googleMapsDirectionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-theme-accent hover:underline underline-offset-4 flex items-center gap-1.5"
+              >
+                <span>Get Driving Directions to VM Chatram</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
           </div>
 
-          {/* Right Column: Enquiry Form */}
-          <div className="lg:col-span-7 bg-theme-surface border border-theme-border p-6 sm:p-8 shadow-sm">
-            <h3 className="font-serif text-2xl text-theme-text-primary font-medium mb-1">
-              Villa Reservation Enquiry
-            </h3>
-            <p className="text-xs text-theme-text-secondary mb-5">
-              Complete the details below to check availability for your preferred stay dates.
-            </p>
-
-            {submittedSuccess && (
-              <div className="p-4 mb-5 bg-[#FAF5EE] dark:bg-theme-surface border border-theme-accent/60 text-xs text-theme-text-primary flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-theme-accent shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium text-theme-text-primary">
-                    Thank you. Your enquiry has been received. The property will contact you to confirm availability.
-                  </p>
-                  <p className="text-theme-text-secondary mt-1">
-                    You may also message us immediately on WhatsApp for instant coordination.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {serverError && (
-              <div className="p-4 mb-5 bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs space-y-2">
-                <div className="flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  <span>{serverError}</span>
-                </div>
-                <div className="flex items-center gap-3 pt-1">
-                  <a
-                    href={PROPERTY.phoneTel}
-                    className="underline text-theme-text-primary font-medium"
-                  >
-                    Call: {PROPERTY.phoneDisplay}
-                  </a>
-                  <span>•</span>
-                  <a
-                    href={PROPERTY.whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline text-theme-text-primary font-medium"
-                  >
-                    Send via WhatsApp
-                  </a>
-                </div>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} noValidate className="space-y-4 text-xs font-sans">
-              {/* Honeypot field for bot protection */}
-              <input
-                type="text"
-                name="villa_security_trap"
-                value={honeypot}
-                onChange={(e) => setHoneypot(e.target.value)}
-                tabIndex={-1}
-                autoComplete="off"
-                className="sr-only"
-                aria-hidden="true"
+          {/* Right Column: Reservation Enquiry Form OR Thank-You Send Screen */}
+          <div className="lg:col-span-7">
+            {submittedEnquiry ? (
+              <EnquiryThankYouScreen
+                enquiry={submittedEnquiry}
+                onEditDetails={handleEditDetails}
+                onStartNewEnquiry={handleStartNewEnquiry}
               />
+            ) : (
+              <div className="bg-theme-surface border border-theme-border p-5 sm:p-7 shadow-sm">
+                <h3 className="font-serif text-xl sm:text-2xl text-theme-text-primary mb-1">
+                  Availability Enquiry Form
+                </h3>
+                <p className="text-xs text-theme-text-secondary mb-5">
+                  Complete the details below to check availability for your preferred stay dates. After you submit, you will send your details to the owner on WhatsApp.
+                </p>
 
-              {/* Name & Phone */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <div>
-                  <label
-                    htmlFor="enquiry-name"
-                    className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
-                  >
-                    Guest Name *
-                  </label>
+                {serverError && (
+                  <div className="p-4 mb-5 bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs space-y-2">
+                    <div className="flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
+                      <span>{serverError}</span>
+                    </div>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} noValidate className="space-y-4 text-xs font-sans">
+                  {/* Honeypot field for bot protection */}
                   <input
-                    id="enquiry-name"
                     type="text"
-                    placeholder="Your full name"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    aria-describedby={errors.fullName ? 'name-error' : undefined}
-                    className={`w-full bg-theme-bg dark:bg-theme-surface-raised border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors ${
-                      errors.fullName ? 'border-red-500' : 'border-theme-border'
-                    }`}
+                    name="villa_security_trap"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    className="sr-only"
+                    aria-hidden="true"
                   />
-                  {errors.fullName && (
-                    <span id="name-error" className="text-[10px] text-red-500 mt-0.5 block">
-                      {errors.fullName}
-                    </span>
-                  )}
-                </div>
 
-                <div>
-                  <label
-                    htmlFor="enquiry-phone"
-                    className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
-                  >
-                    Phone Number (10 Digits) *
-                  </label>
-                  <input
-                    id="enquiry-phone"
-                    type="tel"
-                    placeholder="10-digit mobile number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    aria-describedby={errors.phone ? 'phone-error' : undefined}
-                    className={`w-full bg-theme-bg dark:bg-theme-surface-raised border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors ${
-                      errors.phone ? 'border-red-500' : 'border-theme-border'
-                    }`}
-                  />
-                  {errors.phone && (
-                    <span id="phone-error" className="text-[10px] text-red-500 mt-0.5 block">
-                      {errors.phone}
-                    </span>
-                  )}
-                </div>
+                  {/* Row 1: Full Name & Phone */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="enquiry-name"
+                        className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
+                      >
+                        Full Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="enquiry-name"
+                        type="text"
+                        required
+                        placeholder="e.g. Ramesh Kumar"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        className={`w-full bg-theme-bg dark:bg-theme-surface-raised border px-3 py-2 text-theme-text-primary outline-none transition-colors ${
+                          errors.fullName
+                            ? 'border-red-500 focus:border-red-500'
+                            : 'border-theme-border focus:border-theme-accent'
+                        }`}
+                      />
+                      {errors.fullName && (
+                        <p className="text-red-500 text-[11px] mt-1">{errors.fullName}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="enquiry-phone"
+                        className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
+                      >
+                        Phone Number (10 Digits) <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="enquiry-phone"
+                        type="tel"
+                        required
+                        placeholder="10-digit mobile number"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className={`w-full bg-theme-bg dark:bg-theme-surface-raised border px-3 py-2 text-theme-text-primary outline-none transition-colors font-mono ${
+                          errors.phone
+                            ? 'border-red-500 focus:border-red-500'
+                            : 'border-theme-border focus:border-theme-accent'
+                        }`}
+                      />
+                      {errors.phone && (
+                        <p className="text-red-500 text-[11px] mt-1">{errors.phone}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Row 2: Email & Purpose */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="enquiry-email"
+                        className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
+                      >
+                        Email Address <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="enquiry-email"
+                        type="email"
+                        required
+                        placeholder="e.g. ramesh@example.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className={`w-full bg-theme-bg dark:bg-theme-surface-raised border px-3 py-2 text-theme-text-primary outline-none transition-colors ${
+                          errors.email
+                            ? 'border-red-500 focus:border-red-500'
+                            : 'border-theme-border focus:border-theme-accent'
+                        }`}
+                      />
+                      {errors.email && (
+                        <p className="text-red-500 text-[11px] mt-1">{errors.email}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="contact-purpose"
+                        className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
+                      >
+                        Purpose of Visit <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        id="contact-purpose"
+                        value={purposeOfVisit}
+                        onChange={(e) => setPurposeOfVisit(e.target.value)}
+                        className="w-full bg-theme-bg dark:bg-theme-surface-raised border border-theme-border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors"
+                      >
+                        <option value="Family Stay">Family Stay / Vacation</option>
+                        <option value="Birthday Celebration">Birthday / Anniversary Gathering</option>
+                        <option value="Temple Visit / Tourism">Temple Visit / Tirunelveli Tourism</option>
+                        <option value="Corporate / Professional">Corporate / Business Trip</option>
+                        <option value="Wedding Attendance">Attending Family Wedding</option>
+                        <option value="Other">Other Private Stay</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Row 3: Check-in, Check-out, Guests */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label
+                        htmlFor="contact-checkin"
+                        className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
+                      >
+                        Check-in Date <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="contact-checkin"
+                        type="date"
+                        min={todayStr}
+                        value={checkInDate}
+                        onChange={(e) => setCheckInDate(e.target.value)}
+                        className={`w-full bg-theme-bg dark:bg-theme-surface-raised border px-3 py-2 text-theme-text-primary outline-none transition-colors ${
+                          errors.checkInDate
+                            ? 'border-red-500 focus:border-red-500'
+                            : 'border-theme-border focus:border-theme-accent'
+                        }`}
+                      />
+                      {errors.checkInDate && (
+                        <p className="text-red-500 text-[11px] mt-1">{errors.checkInDate}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="contact-checkout"
+                        className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
+                      >
+                        Check-out Date <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="contact-checkout"
+                        type="date"
+                        min={checkInDate || todayStr}
+                        value={checkOutDate}
+                        onChange={(e) => setCheckOutDate(e.target.value)}
+                        className={`w-full bg-theme-bg dark:bg-theme-surface-raised border px-3 py-2 text-theme-text-primary outline-none transition-colors ${
+                          errors.checkOutDate
+                            ? 'border-red-500 focus:border-red-500'
+                            : 'border-theme-border focus:border-theme-accent'
+                        }`}
+                      />
+                      {errors.checkOutDate && (
+                        <p className="text-red-500 text-[11px] mt-1">{errors.checkOutDate}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="contact-guests"
+                        className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
+                      >
+                        Guests <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        id="contact-guests"
+                        value={guests}
+                        onChange={(e) => setGuests(Number(e.target.value))}
+                        className="w-full bg-theme-bg dark:bg-theme-surface-raised border border-theme-border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors"
+                      >
+                        <option value={1}>1 Guest</option>
+                        <option value={2}>2 Guests</option>
+                        <option value={3}>3 Guests</option>
+                        <option value={4}>4 Guests</option>
+                        <option value={6}>6 Guests</option>
+                        <option value={8}>8 Guests</option>
+                        <option value={10}>10+ Guests (Please specify below)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label
+                      htmlFor="contact-message"
+                      className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
+                    >
+                      Additional Message or Group Details (Optional, max 500 characters)
+                    </label>
+                    <textarea
+                      id="contact-message"
+                      rows={3}
+                      maxLength={500}
+                      placeholder="Tell us about your group, preferred arrival timings, or event requirements..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="w-full bg-theme-bg dark:bg-theme-surface-raised border border-theme-border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors resize-none"
+                    />
+                    <div className="flex justify-between items-center text-[10px] text-theme-text-secondary mt-0.5">
+                      <span>Will be included in the WhatsApp message to the owner</span>
+                      <span>{message.length}/500</span>
+                    </div>
+                  </div>
+
+                  {/* Submit Action */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 bg-theme-accent hover:bg-theme-accent-strong disabled:opacity-60 text-theme-bg dark:text-theme-surface-deep text-xs font-medium tracking-[0.16em] uppercase flex items-center justify-center gap-2 transition-colors shadow-sm"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Preparing WhatsApp Enquiry...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Submit Availability Enquiry</span>
+                          <Send className="w-3.5 h-3.5" />
+                        </>
+                      )}
+                    </button>
+                    <p className="text-[11px] text-theme-text-secondary text-center mt-2 font-sans italic">
+                      After submitting, you will be taken to Step 2 to send your details to the owner on WhatsApp.
+                    </p>
+                  </div>
+                </form>
               </div>
-
-              {/* Email & Purpose */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <div>
-                  <label
-                    htmlFor="enquiry-email"
-                    className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
-                  >
-                    Email Address *
-                  </label>
-                  <input
-                    id="enquiry-email"
-                    type="email"
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    aria-describedby={errors.email ? 'email-error' : undefined}
-                    className={`w-full bg-theme-bg dark:bg-theme-surface-raised border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors ${
-                      errors.email ? 'border-red-500' : 'border-theme-border'
-                    }`}
-                  />
-                  {errors.email && (
-                    <span id="email-error" className="text-[10px] text-red-500 mt-0.5 block">
-                      {errors.email}
-                    </span>
-                  )}
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="enquiry-purpose"
-                    className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
-                  >
-                    Purpose of Visit *
-                  </label>
-                  <select
-                    id="enquiry-purpose"
-                    value={purposeOfVisit}
-                    onChange={(e) => setPurposeOfVisit(e.target.value)}
-                    className="w-full bg-theme-bg dark:bg-theme-surface-raised border border-theme-border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors"
-                  >
-                    <option value="Family Stay">Family Stay</option>
-                    <option value="Friends Gathering">Friends Gathering</option>
-                    <option value="Birthday Celebration">Birthday Celebration</option>
-                    <option value="Private Function">Private Function</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Dates & Guests */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                <div>
-                  <label
-                    htmlFor="contact-checkin"
-                    className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
-                  >
-                    Check-in Date *
-                  </label>
-                  <input
-                    id="contact-checkin"
-                    type="date"
-                    min={todayStr}
-                    value={checkInDate}
-                    onChange={(e) => setCheckInDate(e.target.value)}
-                    aria-describedby={errors.checkInDate ? 'checkin-error' : undefined}
-                    className={`w-full bg-theme-bg dark:bg-theme-surface-raised border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors ${
-                      errors.checkInDate ? 'border-red-500' : 'border-theme-border'
-                    }`}
-                  />
-                  {errors.checkInDate && (
-                    <span id="checkin-error" className="text-[10px] text-red-500 mt-0.5 block">
-                      {errors.checkInDate}
-                    </span>
-                  )}
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="contact-checkout"
-                    className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
-                  >
-                    Check-out Date *
-                  </label>
-                  <input
-                    id="contact-checkout"
-                    type="date"
-                    min={checkInDate || todayStr}
-                    value={checkOutDate}
-                    onChange={(e) => setCheckOutDate(e.target.value)}
-                    aria-describedby={errors.checkOutDate ? 'checkout-error' : undefined}
-                    className={`w-full bg-theme-bg dark:bg-theme-surface-raised border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors ${
-                      errors.checkOutDate ? 'border-red-500' : 'border-theme-border'
-                    }`}
-                  />
-                  {errors.checkOutDate && (
-                    <span id="checkout-error" className="text-[10px] text-red-500 mt-0.5 block">
-                      {errors.checkOutDate}
-                    </span>
-                  )}
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="contact-guests"
-                    className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
-                  >
-                    Number of Guests *
-                  </label>
-                  <select
-                    id="contact-guests"
-                    value={guests}
-                    onChange={(e) => setGuests(Number(e.target.value))}
-                    className="w-full bg-theme-bg dark:bg-theme-surface-raised border border-theme-border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors"
-                  >
-                    <option value={1}>1 Guest</option>
-                    <option value={2}>2 Guests</option>
-                    <option value={3}>3 Guests</option>
-                    <option value={4}>4 Guests</option>
-                    <option value={6}>6 Guests</option>
-                    <option value={8}>8 Guests</option>
-                    <option value={10}>10+ Guests (Please specify below)</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Message */}
-              <div>
-                <label
-                  htmlFor="contact-message"
-                  className="block text-[10px] tracking-wider uppercase text-theme-text-secondary font-medium mb-1"
-                >
-                  Additional Message or Group Details (Optional)
-                </label>
-                <textarea
-                  id="contact-message"
-                  rows={3}
-                  maxLength={500}
-                  placeholder="Tell us about your group, preferred arrival timings, or event requirements..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="w-full bg-theme-bg dark:bg-theme-surface-raised border border-theme-border px-3 py-2 text-theme-text-primary focus:border-theme-accent outline-none transition-colors resize-none"
-                />
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full sm:flex-1 py-3 bg-theme-accent hover:bg-theme-accent-strong disabled:opacity-60 text-theme-bg dark:text-theme-surface-deep text-xs font-medium tracking-[0.16em] uppercase flex items-center justify-center gap-2 transition-colors shadow-sm"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Sending Enquiry...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Submit Availability Enquiry</span>
-                      <Send className="w-3.5 h-3.5" />
-                    </>
-                  )}
-                </button>
-
-                <a
-                  href={buildWhatsAppFromForm()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-4 py-3 border border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-theme-bg text-xs font-sans tracking-wider uppercase flex items-center justify-center gap-2 transition-colors"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Send On WhatsApp</span>
-                </a>
-              </div>
-            </form>
+            )}
           </div>
         </div>
       </div>

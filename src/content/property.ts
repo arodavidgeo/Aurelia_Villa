@@ -164,7 +164,7 @@ export const PROPERTY: PropertyData = {
       id: 'faq-9',
       question: 'How do I make a booking enquiry?',
       answer:
-        'You can submit an availability enquiry through our online form, call us directly at 96296 68800, or message us on WhatsApp. Details and availability are confirmed by the property upon enquiry.',
+        'Fill in the availability enquiry, then send it to the owner on WhatsApp using the button, or call 96296 68800. Availability is confirmed by the owner.',
     },
     {
       id: 'faq-10',

@@ -96,13 +96,13 @@ export const PolicyModal: React.FC = () => {
             </h3>
             <div className="space-y-4 text-xs text-theme-text-secondary leading-relaxed font-sans">
               <p>
-                <strong>Data Collection:</strong> We collect only the contact information required to coordinate your private stay at Villa Aurelia: guest name, contact phone number, dates of stay, expected guest count, and purpose of visit.
+                <strong>WhatsApp Transmission & Privacy:</strong> Details entered into our availability enquiry form are formatted into a WhatsApp message that you choose to send directly to the property owner. You remain in complete control of sending the message from your own WhatsApp account.
               </p>
               <p>
-                <strong>Use of Information:</strong> Guest details are used exclusively for direct stay coordination, reservation confirmation, and local hospitality communication. Information is never sold, shared, or distributed to third parties.
+                <strong>Local Storage & Record Keeping:</strong> Enquiry details may be temporarily cached in session storage on your device solely to maintain your screen on page reload. Where database connectivity is active, enquiries may be recorded in a secured audit log for host availability tracking. Information is never sold, shared, or distributed to third parties. <em>[Draft policy; subject to formal legal review by the property owner.]</em>
               </p>
               <p>
-                <strong>Direct Communication:</strong> Enquiries submitted via WhatsApp or phone connect directly with the villa management (+91 96296 68800).
+                <strong>Direct Communication:</strong> Sending your enquiry via WhatsApp connects you directly with the villa owner (+91 96296 68800) who verifies and confirms availability.
               </p>
             </div>
           </>

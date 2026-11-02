@@ -95,7 +95,7 @@ export const ConfirmationModal: React.FC = () => {
             <CheckCircle2 className="w-6 h-6" />
           </div>
           <span className="text-xs uppercase tracking-widest text-theme-accent font-medium mb-1">
-            Enquiry Received
+            Enquiry Prepared
           </span>
           <h3
             id="confirmation-modal-title"
@@ -151,7 +151,7 @@ export const ConfirmationModal: React.FC = () => {
         </div>
 
         <p className="text-xs leading-relaxed text-theme-text-secondary text-center mb-6">
-          Thank you. Your enquiry has been received. The property will contact you to confirm availability.
+          Thank you for your enquiry. Your enquiry has not been sent to the owner yet. Press Chat on WhatsApp below to send your details so the owner can confirm availability.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-3">

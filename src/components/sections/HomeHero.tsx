@@ -222,7 +222,7 @@ export const HomeHero: React.FC = () => {
             )}
 
             <div className="mt-3 pt-2.5 border-t border-theme-border/40 text-[11px] text-theme-text-secondary text-center italic">
-              * Villa Aurelia is offered as an entire private house. Booking enquiries are subject to availability and confirmation by the property.
+              * Villa Aurelia is offered as an entire private house. Booking enquiries are subject to availability and confirmation by the property. After you submit, you will send your details to the owner on WhatsApp.
             </div>
           </form>
         </div>
