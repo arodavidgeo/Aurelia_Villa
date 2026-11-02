@@ -33,6 +33,41 @@ const server = http.createServer((req, res) => {
   if (reqPath === '/') reqPath = '/index.html';
   const filePath = path.join(distDir, reqPath);
 
+  if (reqPath === '/index.html') {
+    let content = fs.readFileSync(filePath, 'utf8');
+    if (req.url.includes('test_enquiry=1')) {
+      const injection = `
+        <style>
+          header, footer, #mobile-booking-bar, main > *:not(#contact) {
+            display: none !important;
+          }
+          #contact {
+            padding-top: 1rem !important;
+            padding-bottom: 2rem !important;
+          }
+        </style>
+        <script>
+          try {
+            sessionStorage.setItem('va_pending_whatsapp_enquiry', JSON.stringify({
+              fullName: 'David Geo',
+              phone: '9629668800',
+              email: 'david@example.com',
+              checkInDate: '2026-11-06',
+              checkOutDate: '2026-11-07',
+              guests: 4,
+              purposeOfVisit: 'Family Stay',
+              message: 'Looking forward to our stay.'
+            }));
+          } catch (e) {}
+        </script>
+      `;
+      content = content.replace('</head>', `${injection}</head>`);
+    }
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' });
+    res.end(content);
+    return;
+  }
+
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
@@ -53,18 +88,10 @@ server.listen(PORT, async () => {
   const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
   const viewports = [
-    { name: 'desktop-light', width: 1440, height: 900, url: `http://localhost:${PORT}/?theme=light` },
-    { name: 'desktop-dark', width: 1440, height: 900, url: `http://localhost:${PORT}/?theme=dark` },
-    { name: 'tablet-light', width: 768, height: 1024, url: `http://localhost:${PORT}/?theme=light` },
-    { name: 'tablet-dark', width: 768, height: 1024, url: `http://localhost:${PORT}/?theme=dark` },
-    { name: 'mobile-light', width: 375, height: 812, url: `http://localhost:${PORT}/?theme=light` },
-    { name: 'mobile-dark', width: 375, height: 812, url: `http://localhost:${PORT}/?theme=dark` },
-    // Specific sections
-    { name: 'explore-section-desktop', width: 1440, height: 1100, url: `http://localhost:${PORT}/#explore` },
-    { name: 'terrace-section-desktop', width: 1440, height: 1100, url: `http://localhost:${PORT}/#terrace` },
-    { name: 'gallery-section-desktop', width: 1440, height: 1100, url: `http://localhost:${PORT}/#gallery` },
-    { name: 'location-section-desktop', width: 1440, height: 1100, url: `http://localhost:${PORT}/#location` },
-    { name: 'contact-section-desktop', width: 1440, height: 1100, url: `http://localhost:${PORT}/#contact` }
+    { name: 'whatsapp-thankyou-1440-light', width: 1440, height: 1300, url: `http://localhost:${PORT}/?test_enquiry=1&theme=light` },
+    { name: 'whatsapp-thankyou-1440-dark', width: 1440, height: 1300, url: `http://localhost:${PORT}/?test_enquiry=1&theme=dark` },
+    { name: 'whatsapp-thankyou-375-light', width: 375, height: 2300, url: `http://localhost:${PORT}/?test_enquiry=1&theme=light` },
+    { name: 'whatsapp-thankyou-375-dark', width: 375, height: 2300, url: `http://localhost:${PORT}/?test_enquiry=1&theme=dark` },
   ];
 
   for (const vp of viewports) {
@@ -91,4 +118,3 @@ server.listen(PORT, async () => {
   console.log('All screenshots captured successfully.');
   server.close(() => process.exit(0));
 });
-

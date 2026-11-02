@@ -66,7 +66,7 @@ export const EnquiryThankYouScreen: React.FC<EnquiryThankYouScreenProps> = ({
     <div
       role="region"
       aria-label="Enquiry submission confirmation and WhatsApp dispatch"
-      className="bg-theme-surface border border-theme-border p-6 sm:p-8 shadow-sm font-sans"
+      className="bg-theme-surface border border-theme-border p-4 sm:p-7 shadow-sm font-sans max-w-full overflow-hidden"
     >
       {/* Screen Reader Live Announcement */}
       <div aria-live="polite" className="sr-only">
@@ -122,44 +122,44 @@ export const EnquiryThankYouScreen: React.FC<EnquiryThankYouScreenProps> = ({
       </div>
 
       {/* Summary Card */}
-      <div className="bg-theme-surface-raised border border-theme-border/70 p-4 sm:p-5 mb-5 space-y-2.5 text-xs">
-        <div className="flex items-center justify-between border-b border-theme-border/40 pb-2">
-          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px]">Guest Name</span>
-          <span className="font-medium text-theme-text-primary">{enquiry.fullName}</span>
+      <div className="bg-theme-surface-raised border border-theme-border/70 p-3.5 sm:p-5 mb-5 space-y-2.5 text-xs">
+        <div className="flex items-center justify-between gap-3 border-b border-theme-border/40 pb-2">
+          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px] shrink-0">Guest Name</span>
+          <span className="font-medium text-theme-text-primary text-right">{enquiry.fullName}</span>
         </div>
 
-        <div className="flex items-center justify-between border-b border-theme-border/40 pb-2">
-          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px]">Contact Phone</span>
-          <span className="font-medium text-theme-text-primary">{enquiry.phone}</span>
+        <div className="flex items-center justify-between gap-3 border-b border-theme-border/40 pb-2">
+          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px] shrink-0">Contact Phone</span>
+          <span className="font-medium text-theme-text-primary text-right font-mono">{enquiry.phone}</span>
         </div>
 
         {enquiry.email && (
-          <div className="flex items-center justify-between border-b border-theme-border/40 pb-2">
-            <span className="text-theme-text-secondary uppercase tracking-wider text-[10px]">Email Address</span>
-            <span className="font-medium text-theme-text-primary">{enquiry.email}</span>
+          <div className="flex items-center justify-between gap-3 border-b border-theme-border/40 pb-2">
+            <span className="text-theme-text-secondary uppercase tracking-wider text-[10px] shrink-0">Email Address</span>
+            <span className="font-medium text-theme-text-primary text-right break-all">{enquiry.email}</span>
           </div>
         )}
 
-        <div className="flex items-center justify-between border-b border-theme-border/40 pb-2">
-          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px]">Check-in Date</span>
-          <span className="font-medium text-theme-text-primary">{formatCalendarDate(enquiry.checkInDate)}</span>
+        <div className="flex items-center justify-between gap-3 border-b border-theme-border/40 pb-2">
+          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px] shrink-0">Check-in Date</span>
+          <span className="font-medium text-theme-text-primary text-right">{formatCalendarDate(enquiry.checkInDate)}</span>
         </div>
 
-        <div className="flex items-center justify-between border-b border-theme-border/40 pb-2">
-          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px]">Check-out Date</span>
-          <span className="font-medium text-theme-text-primary">{formatCalendarDate(enquiry.checkOutDate)}</span>
+        <div className="flex items-center justify-between gap-3 border-b border-theme-border/40 pb-2">
+          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px] shrink-0">Check-out Date</span>
+          <span className="font-medium text-theme-text-primary text-right">{formatCalendarDate(enquiry.checkOutDate)}</span>
         </div>
 
-        <div className="flex items-center justify-between border-b border-theme-border/40 pb-2">
-          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px]">Guests & Purpose</span>
-          <span className="font-medium text-theme-text-primary">
+        <div className="flex items-center justify-between gap-3 border-b border-theme-border/40 pb-2">
+          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px] shrink-0">Guests & Purpose</span>
+          <span className="font-medium text-theme-text-primary text-right">
             {enquiry.guests} Guests · {enquiry.purposeOfVisit}
           </span>
         </div>
 
-        <div className="flex items-center justify-between border-b border-theme-border/40 pb-2">
-          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px]">Package Rate</span>
-          <span className="font-medium text-theme-text-primary">
+        <div className="flex items-center justify-between gap-3 border-b border-theme-border/40 pb-2">
+          <span className="text-theme-text-secondary uppercase tracking-wider text-[10px] shrink-0">Package Rate</span>
+          <span className="font-medium text-theme-text-primary text-right">
             {PROPERTY.priceDisplay} / 24 hours, entire villa
           </span>
         </div>
@@ -189,18 +189,18 @@ export const EnquiryThankYouScreen: React.FC<EnquiryThankYouScreenProps> = ({
           </span>
           <span className="text-[10px] text-theme-text-secondary">Read-only text</span>
         </div>
-        <pre className="bg-theme-bg dark:bg-theme-surface-deep border border-theme-border p-3 text-[11px] font-mono text-theme-text-secondary whitespace-pre-wrap select-all leading-relaxed max-h-40 overflow-y-auto">
+        <pre className="bg-theme-bg dark:bg-theme-surface-deep border border-theme-border p-3 text-[11px] font-mono text-theme-text-secondary whitespace-pre-wrap break-words select-all leading-relaxed max-h-40 overflow-y-auto">
           {handoff.message}
         </pre>
       </div>
 
       {/* Secondary Actions */}
-      <div className="flex flex-wrap items-center gap-3 pt-2 pb-4 border-b border-theme-border/40">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 pt-2 pb-4 border-b border-theme-border/40">
         <button
           type="button"
           onClick={handleCopyMessage}
           aria-label="Copy formatted WhatsApp message to clipboard"
-          className="flex-1 min-w-[140px] py-2 px-3 border border-theme-border hover:border-theme-accent text-theme-text-primary hover:text-theme-accent text-xs font-medium flex items-center justify-center gap-1.5 transition-colors"
+          className="w-full sm:flex-1 py-2.5 px-3 border border-theme-border hover:border-theme-accent text-theme-text-primary hover:text-theme-accent text-xs font-medium flex items-center justify-center gap-1.5 transition-colors"
         >
           {copied ? (
             <>
@@ -217,7 +217,7 @@ export const EnquiryThankYouScreen: React.FC<EnquiryThankYouScreenProps> = ({
 
         <a
           href={PROPERTY.phoneTel}
-          className="flex-1 min-w-[140px] py-2 px-3 border border-theme-border hover:border-theme-accent text-theme-text-primary hover:text-theme-accent text-xs font-medium flex items-center justify-center gap-1.5 transition-colors"
+          className="w-full sm:flex-1 py-2.5 px-3 border border-theme-border hover:border-theme-accent text-theme-text-primary hover:text-theme-accent text-xs font-medium flex items-center justify-center gap-1.5 transition-colors text-center"
         >
           <Phone className="w-3.5 h-3.5" />
           <span>Call {PROPERTY.phoneDisplay}</span>
@@ -252,3 +252,4 @@ export const EnquiryThankYouScreen: React.FC<EnquiryThankYouScreenProps> = ({
     </div>
   );
 };
+
