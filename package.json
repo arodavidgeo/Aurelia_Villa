@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "verify:villa": "node scripts/verify-villa.mjs",
     "test": "node scripts/verify-villa.mjs",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "test:unit": "node scripts/run-unit-tests.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
