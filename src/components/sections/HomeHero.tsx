@@ -135,7 +135,7 @@ export const HomeHero: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-3 pb-2 border-b border-theme-border/50">
               <span className="text-[10px] tracking-[0.2em] uppercase text-theme-accent font-medium">
-                Reserve Your Stay — ₹7,500 / 24 Hours Exclusive
+                Reserve Your Stay — ₹5,000 / 24 Hours Exclusive
               </span>
               <span className="text-[10px] text-theme-text-secondary hidden sm:inline">
                 Direct Host Confirmation

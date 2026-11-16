@@ -46,7 +46,7 @@ const fullAddress =
   'Villa Aurelia, H-18, TNHB Colony, Stage - 1, Bharani Nagar, VM Chatram, Tirunelveli - 627011, Tamil Nadu, India';
 
 const prefilledText =
-  'Hello Villa Aurelia, I would like to enquire about booking the entire villa in Tirunelveli (₹7,500 / 24 Hours).';
+  'Hello Villa Aurelia, I would like to enquire about booking the entire villa in Tirunelveli (₹5,000 / 24 Hours).';
 
 export const PROPERTY: PropertyData = {
   name: 'Villa Aurelia',
@@ -58,8 +58,8 @@ export const PROPERTY: PropertyData = {
   eyebrow: 'A PRIVATE VILLA STAY IN TIRUNELVELI',
   heroSupport:
     'Experience the comfort of an entire private home, thoughtfully suited for family stays, get-togethers and memorable celebrations.',
-  priceDisplay: '₹7,500',
-  priceValue: 7500,
+  priceDisplay: '₹5,000',
+  priceValue: 5000,
   priceNote: 'for a 24-hour stay, for the entire villa',
   pricingCardTitle: 'Your Private Villa Stay',
   pricingIncludes: [
@@ -122,7 +122,7 @@ export const PROPERTY: PropertyData = {
       id: 'faq-2',
       question: 'What is the price for a 24-hour stay?',
       answer:
-        'The price is ₹7,500 for a 24-hour stay, which includes exclusive use of the entire villa.',
+        'The price is ₹5,000 for a 24-hour stay, which includes exclusive use of the entire villa.',
     },
     {
       id: 'faq-3',

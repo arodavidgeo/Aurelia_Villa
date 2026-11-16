@@ -116,13 +116,13 @@ function checkFile(filePath) {
       }
     }
 
-    // 5. Check rupee amounts: Only ₹7,500 allowed
+    // 5. Check rupee amounts: Only ₹5,000 allowed
     const rupeeMatches = content.match(/₹\s*[\d,]+/g);
     if (rupeeMatches) {
       for (const m of rupeeMatches) {
         const clean = m.replace(/\s+/g, '');
-        if (clean !== '₹7,500') {
-          errors.push(`[Invalid Price] ${relPath} contains invalid price: "${m}" (Only ₹7,500 allowed)`);
+        if (clean !== '₹5,000') {
+          errors.push(`[Invalid Price] ${relPath} contains invalid price: "${m}" (Only ₹5,000 allowed)`);
         }
       }
     }

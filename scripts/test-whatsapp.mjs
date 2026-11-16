@@ -44,7 +44,7 @@ console.log('=== RUNNING WHATSAPP HANDOFF UNIT TESTS ===\n');
   assert(result.message.includes('Email: david@example.com'), 'Includes email');
   assert(result.message.includes('Check-in: Fri, 6 Nov 2026'), 'Includes check-in date');
   assert(result.message.includes('Check-out: Sat, 7 Nov 2026'), 'Includes check-out date');
-  assert(result.message.includes('Package: ₹7,500 for a 24-hour stay (entire villa)'), 'Includes approved package line');
+  assert(result.message.includes('Package: ₹5,000 for a 24-hour stay (entire villa)'), 'Includes approved package line');
   assert(result.url.startsWith(`https://wa.me/${PROPERTY.whatsappNumber}?text=`), 'Correct wa.me URL structure');
   assertStrictEqual(result.wasMessageTruncated, false, 'Should not be truncated');
 

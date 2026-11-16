@@ -42,7 +42,7 @@ export const PolicyModal: React.FC = () => {
                 <strong>1. Exclusive Private Booking:</strong> Villa Aurelia is rented as an entire private residence (Hall, 2 AC Bedrooms, 2 Attached Toilets, Guest Kitchen, Parking, and Terrace). Rooms are not booked separately to unrelated guests.
               </p>
               <p>
-                <strong>2. Check-In & Check-Out Schedule:</strong> A standard reservation covers a full 24-hour exclusive stay at ₹7,500. Exact check-in and check-out timing is confirmed by the property at the time of enquiry.
+                <strong>2. Check-In & Check-Out Schedule:</strong> A standard reservation covers a full 24-hour exclusive stay at ₹5,000. Exact check-in and check-out timing is confirmed by the property at the time of enquiry.
               </p>
               <p>
                 <strong>3. Guest Identification:</strong> Government-issued photo identification (Aadhaar, Passport, Driver’s License) is required for primary guests upon arrival.

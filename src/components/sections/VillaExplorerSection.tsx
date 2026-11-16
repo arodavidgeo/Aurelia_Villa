@@ -227,7 +227,7 @@ export const VillaExplorerSection: React.FC = () => {
             Explore the <span className="text-theme-accent italic">Spaces of Villa Aurelia.</span>
           </h2>
           <p className="text-xs sm:text-sm text-theme-text-secondary leading-relaxed">
-            Select an area to explore genuine photographs and verified spatial details. Every space is included in your ₹7,500 exclusive stay.
+            Select an area to explore genuine photographs and verified spatial details. Every space is included in your ₹5,000 exclusive stay.
           </p>
         </div>
 
